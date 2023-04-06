@@ -13,10 +13,52 @@ Entity* Bullet::GetOwner()
 
 void Bullet::Update(double deltaTime)
 {
+    time += deltaTime;
+    if (time < delay)
+        return;
+    time -= delay;
+    switch (eDirection)
+    {
+        case Entity::Direction::Up:
 
+            break;
+        case Entity::Direction::Down:
+
+            break;
+        case Entity::Direction::Left:
+
+            break;
+        case Entity::Direction::Right:
+
+            break;
+    }
 }
 
 void Bullet::OnCollisionEntity(Entity* target)
 {
-
+    switch (target->GetEntityType())
+    {
+        case EntityType::Player:
+            break;
+        case EntityType::Bullet:
+            break;
+        case EntityType::Cannon:
+            break;
+        case EntityType::Runner:
+            break;
+        case EntityType::Randomer:
+            break;
+        case EntityType::Chaser:
+            break;
+        case EntityType::MovableEntity:
+            break;
+        case EntityType::CheckPoint:
+            break;
+        case EntityType::Ammo:
+            break;
+        case EntityType::Life:
+            break;
+        default:
+            break;
+    }
 }

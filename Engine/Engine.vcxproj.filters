@@ -60,6 +60,9 @@
     <ClInclude Include="World.h">
       <Filter>Файлы заголовков\World</Filter>
     </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering.cpp">
@@ -75,7 +78,10 @@
       <Filter>Исходные файлы\Entity</Filter>
     </ClCompile>
     <ClCompile Include="World.cpp">
-      <Filter>Исходные файлы</Filter>
+      <Filter>Исходные файлы\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

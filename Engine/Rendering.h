@@ -50,12 +50,12 @@ public:
 
 	void PrintSymbol(int x, int y, short ch, short color = FG_WHITE | BG_BLACK);
 	void ClearSymbol(int x, int y, const wchar_t msg);
-	void ConstructWindow(int width, int height, const std::wstring& AppName);
-	void PrintMsg(int x, int y, const std::wstring& msg, short color = FG_WHITE | BG_BLACK);
-	void PrintMsgInCenter(int y, const std::wstring& msg, short color = FG_WHITE | BG_BLACK);
+	void ConstructWindow(int width, int height, int fontw, int fonth, const std::wstring& font, const std::wstring& AppName);
+	void PrintMsg(int x, int y, short color, const wchar_t* msg, ...);
+	void PrintMsgLeftSide(int y, short color, const wchar_t* msg, ...);
+	void PrintMsgRightSide(int y, short color, const wchar_t* msg, ...);
+	void PrintMsgInCenter(int y, short color, const wchar_t* msg, ...);
 	void PrintSymbol(int x, int y, const wchar_t msg, short color = FG_WHITE | BG_BLACK);
-	void ClearMsg(int x, int y, const std::wstring& msg);
-	void ClearMsgInCenter(int y, const std::wstring& msg);
 	void ChangeAppNme(const std::wstring& nameApp);
 	void AddToAppName(const std::wstring& str);
 	void UpdateWindow();

@@ -1,11 +1,10 @@
 #include "Engine.h"
 
-void CEngine::Start(int iScrWidth, int iScrHeight, std::wstring AppName)
+void CEngine::Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const std::wstring& font, const std::wstring& AppName)
 {
 	pWindow = new Window();
 	pTimer = new Timer();
-
-	pWindow->ConstructWindow(iScrWidth, iScrHeight, AppName);
+	pWindow->ConstructWindow(iScrWidth, iScrHeight, iFontX, iFontY, font, AppName);
 	if (pWindow.Get() && pTimer.Get())		//если всё запущено, то устанавливаем флаг о том, что движок запущен
 	{
 		bIsRunning = true;
@@ -32,6 +31,7 @@ void CEngine::GameThread()
 	{
 		pTimer->UpdateTimer();
 		pWindow->ClearAllWindow();
+		Keyboard::UpdateKeyboard();
 
 		double deltaTime = pTimer->GetDeltaTimeSec();
 		fpsTime += deltaTime;
@@ -39,7 +39,9 @@ void CEngine::GameThread()
 		if (fpsTime >= 1.0)
 		{
 			fpsTime -= 1.0;
-			pWindow->ChangeAppNme(L"FPS: " + std::to_wstring(fps) + L" FPS(instant): " + std::to_wstring(1.0f / deltaTime));
+			wchar_t buf[256]{};
+			swprintf_s(buf, 256, L"FPS: %d FPS(instant): %3.2f", fps, 1.0 / deltaTime);
+			pWindow->ChangeAppNme(buf);
 			fps = 0;
 		}
 

@@ -2,6 +2,7 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 
+#include "Input.h"
 #include "Memory.h"
 #include "Rendering.h"
 #include "PRNG.h"
@@ -12,7 +13,7 @@ class CEngine
 {
 public:
 	~CEngine() { Stop(); }
-	void Start(int iScrWidth, int iScrHeight, std::wstring AppName = L"Default");
+	void Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const std::wstring& font = L"Точечные шрифты", const std::wstring& AppName = L"Default");
 	void Stop();
 private:
 	void GameThread();

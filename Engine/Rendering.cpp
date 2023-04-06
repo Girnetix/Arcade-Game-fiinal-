@@ -9,7 +9,7 @@ Window::Window()
 	cursX = cursY = 0;
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 	AppName = L"Unnamed app";
-	ConstructWindow(screenWidth, screenHeight, AppName);
+	ConstructWindow(screenWidth, screenHeight, 8, 12, L"Точечные шрифты", AppName);
 }
 
 Window::~Window()
@@ -38,7 +38,7 @@ void Window::ClearSymbol(int x, int y, const wchar_t msg)
 	}
 }
 
-void Window::ConstructWindow(int width, int height, const std::wstring& AppName)
+void Window::ConstructWindow(int width, int height, int fontw, int fonth, const std::wstring& font, const std::wstring& AppName)
 {
 	screenWidth = width;
 	screenHeight = height;
@@ -48,6 +48,17 @@ void Window::ConstructWindow(int width, int height, const std::wstring& AppName)
 	COORD coord = { (short)screenWidth, (short)screenHeight };
 	SetConsoleScreenBufferSize(hConsole, coord);
 	SetConsoleActiveScreenBuffer(hConsole);
+	CONSOLE_FONT_INFOEX cfi;
+	cfi.cbSize = sizeof(cfi);
+	cfi.nFont = 0;
+	cfi.dwFontSize.X = fontw;
+	cfi.dwFontSize.Y = fonth;
+	cfi.FontFamily = FF_DONTCARE;
+	cfi.FontWeight = FW_NORMAL;
+
+	wcscpy_s(cfi.FaceName, font.c_str());
+	SetCurrentConsoleFontEx(hConsole, false, &cfi);
+
 	rectWindow = { 0, 0, (short)(screenWidth - 1), (short)(screenHeight - 1) };
 	SetConsoleWindowInfo(hConsole, TRUE, &rectWindow);
 
@@ -55,26 +66,85 @@ void Window::ConstructWindow(int width, int height, const std::wstring& AppName)
 	ClearAllWindow();
 }
 
-void Window::PrintMsg(int x, int y, const std::wstring& msg, short color)
+void Window::PrintMsg(int x, int y, short color, const wchar_t* msg, ...)
 {
 	if (x < screenWidth && x >= 0 && y < screenHeight && y >= 0)
 	{
-		for (int i = 0; i < msg.length(); i++)
+		va_list args;
+		va_start(args, msg);
+
+		int len = _vscwprintf(msg, args) + 1;
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		vswprintf_s(buffer.Get(), len, msg, args);
+
+		va_end(args);
+
+		for (int i = 0; i < len - 1; i++)
 		{
-			screen[y * screenWidth + x + i].Char.UnicodeChar = msg[i];
+			screen[y * screenWidth + x + i].Char.UnicodeChar = buffer[i];
 			screen[y * screenWidth + x + i].Attributes = color;
 		}
 	}
 }
 
-void Window::PrintMsgInCenter(int y, const std::wstring& msg, short color)
+void Window::PrintMsgLeftSide(int y, short color, const wchar_t* msg, ...)
 {
 	if (y < screenHeight && y >= 0)
 	{
-		int x = screenWidth / 2 - (int)msg.length() / 2;
-		for (int i = 0; i < (int)msg.length(); i++)
+		va_list args;
+		va_start(args, msg);
+
+		int len = _vscwprintf(msg, args) + 1;
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		vswprintf_s(buffer.Get(), len, msg, args);
+
+		va_end(args);
+		int x = 0;
+		for (int i = 0; i < len - 1; i++)
 		{
-			screen[y * screenWidth + x + i].Char.UnicodeChar = msg[i];
+			screen[y * screenWidth + x + i].Char.UnicodeChar = buffer[i];
+			screen[y * screenWidth + x + i].Attributes = color;
+		}
+	}
+}
+
+void Window::PrintMsgRightSide(int y, short color, const wchar_t* msg, ...)
+{
+	if (y < screenHeight && y >= 0)
+	{
+		va_list args;
+		va_start(args, msg);
+
+		int len = _vscwprintf(msg, args) + 1;
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		vswprintf_s(buffer.Get(), len, msg, args);
+
+		va_end(args);
+		int x = screenWidth - len + 1;
+		for (int i = 0; i < len - 1; i++)
+		{
+			screen[y * screenWidth + x + i].Char.UnicodeChar = buffer[i];
+			screen[y * screenWidth + x + i].Attributes = color;
+		}
+	}
+}
+
+void Window::PrintMsgInCenter(int y, short color, const wchar_t* msg, ...)
+{
+	if (y < screenHeight && y >= 0)
+	{
+		va_list args;
+		va_start(args, msg);
+
+		int len = _vscwprintf(msg, args) + 1;
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		vswprintf_s(buffer.Get(), len, msg, args);
+
+		va_end(args);
+		int x = (screenWidth - len) / 2;
+		for (int i = 0; i < len - 1; i++)
+		{
+			screen[y * screenWidth + x + i].Char.UnicodeChar = buffer[i];
 			screen[y * screenWidth + x + i].Attributes = color;
 		}
 	}
@@ -86,33 +156,6 @@ void Window::PrintSymbol(int x, int y, const wchar_t msg, short color)
 	{
 		screen[y * screenWidth + x].Char.UnicodeChar = msg;
 		screen[y * screenWidth + x].Attributes = color;
-	}
-}
-
-void Window::ClearMsg(int x, int y, const std::wstring& msg)
-{
-	if (x <= screenWidth && x >= 0 && y <= screenHeight && y >= 0)
-	{
-		for (int i = 0; i < (int)msg.length(); i++)
-			if (msg[i] == screen[y * screenWidth + x + i].Char.UnicodeChar)
-			{
-				screen[y * screenWidth + x + i].Char.UnicodeChar = ' ';
-				screen[y * screenWidth + x + i].Attributes = FG_BLACK | BG_BLACK;
-			}
-	}
-}
-
-void Window::ClearMsgInCenter(int y, const std::wstring& msg)
-{
-	if (y <= screenHeight && y >= 0)
-	{
-		int x = screenWidth / 2 - (int)msg.length() / 2;
-		for (int i = 0; i < (int)msg.length(); i++)
-			if (msg[i] == screen[y * screenWidth + x + i].Char.UnicodeChar)
-			{
-				screen[y * screenWidth + x + i].Char.UnicodeChar = ' ';
-				screen[y * screenWidth + x + i].Attributes = FG_BLACK | BG_BLACK;
-			}
 	}
 }
 
