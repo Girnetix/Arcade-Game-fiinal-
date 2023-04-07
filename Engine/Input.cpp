@@ -29,7 +29,7 @@ const std::vector<std::tuple<Key, std::wstring, std::wstring, std::wstring, std:
 const std::map<Key, std::wstring> KeyNamesMap = {
 	{Key::NONE, L"Отсутствует"},	
 	{Key::MOUSE_LBUTTON,  L"Левая кнопка мыши"},	{Key::MOUSE_RBUTTON,  L"Правая кнопка мыши"}, 
-	{Key::MOUSE_MBUTTON,  L"Кнопка мыши 3"},	{Key::MOUSE_XBUTTON1, L"Кнопка мыши 4"},	{Key::MOUSE_XBUTTON2, L"Кнопка мыши 5"},
+	{Key::MOUSE_MBUTTON,  L"Кнопка мыши 3"},		{Key::MOUSE_XBUTTON1, L"Кнопка мыши 4"},	{Key::MOUSE_XBUTTON2, L"Кнопка мыши 5"},
 	
 	{Key::Key_A, L"A"},		{Key::Key_B, L"B"},		{Key::Key_C, L"C"},		{Key::Key_D, L"D"},		{Key::Key_E, L"E"},
 	{Key::Key_F, L"F"},		{Key::Key_G, L"G"},		{Key::Key_H, L"H"},		{Key::Key_I, L"I"},		{Key::Key_J, L"J"},
