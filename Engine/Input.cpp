@@ -26,6 +26,41 @@ const std::vector<std::tuple<Key, std::wstring, std::wstring, std::wstring, std:
 	{Key::OEM_5, L"\\", L"|", L"\\", L"/"}, {Key::OEM_6, L"]", L"}", L"ъ", L"Ъ"}, {Key::OEM_7, L"\'", L"\"", L"э", L"Э"}
 };
 
+const std::map<Key, std::wstring> KeyNamesMap = {
+	{Key::NONE, L"Отсутствует"},	
+	{Key::MOUSE_LBUTTON,  L"Левая кнопка мыши"},	{Key::MOUSE_RBUTTON,  L"Правая кнопка мыши"}, 
+	{Key::MOUSE_MBUTTON,  L"Кнопка мыши 3"},	{Key::MOUSE_XBUTTON1, L"Кнопка мыши 4"},	{Key::MOUSE_XBUTTON2, L"Кнопка мыши 5"},
+	
+	{Key::Key_A, L"A"},		{Key::Key_B, L"B"},		{Key::Key_C, L"C"},		{Key::Key_D, L"D"},		{Key::Key_E, L"E"},
+	{Key::Key_F, L"F"},		{Key::Key_G, L"G"},		{Key::Key_H, L"H"},		{Key::Key_I, L"I"},		{Key::Key_J, L"J"},
+	{Key::Key_K, L"K"},		{Key::Key_L, L"L"},		{Key::Key_M, L"M"},		{Key::Key_N, L"N"},		{Key::Key_O, L"O"},
+	{Key::Key_P, L"P"},		{Key::Key_Q, L"Q"},		{Key::Key_R, L"R"},		{Key::Key_S, L"S"},		{Key::Key_T, L"T"},
+	{Key::Key_U, L"U"},		{Key::Key_V, L"V"},		{Key::Key_W, L"W"},		{Key::Key_X, L"X"},		{Key::Key_Y, L"Y"},
+	{Key::Key_Z, L"Z"},
+
+	{Key::K0, L"0"},	{Key::K1, L"1"},	{Key::K2, L"2"},	{Key::K3, L"3"},	{Key::K4, L"4"},
+	{Key::K5, L"5"},	{Key::K6, L"7"},	{Key::K7, L"7"},	{Key::K8, L"8"},	{Key::K9, L"9"},
+
+	{Key::F1, L"F1"},	{Key::F2, L"F2"},	{Key::F3, L"F3"},	{Key::F4, L"F4"},	{Key::F5, L"F5"},	{Key::F6, L"F6"},
+	{Key::F7, L"F7"},	{Key::F8, L"F8"},	{Key::F9, L"F9"},	{Key::F10, L"F10"},	{Key::F11, L"F11"},	{Key::F12, L"F12"},
+
+	{Key::UP, L"Стрелка вверх"},	{Key::DOWN, L"Стрелка вниз"},	{Key::LEFT, L"Стрелка влево"},	{Key::RIGHT, L"Стрелка вправо"},
+
+	{Key::SPACE, L"Пробел"},				{Key::TAB, L"Tab"},			{Key::LSHIFT, L"Левый Shift"},	{Key::RSHIFT, L"Правый Shift"},		{Key::LCONTROL, L"Левый Control"},
+	{Key::RCONTROL, L"Правый Control"},		{Key::INSERT, L"Insert"},	{Key::DEL, L"Delete"},			{Key::HOME, L"Home"},				{Key::END, L"End"},	
+	{Key::PGUP, L"Page Up"},				{Key::PGDN, L"Page Down"},	{Key::LALT, L"Левый Alt"},		{Key::RALT, L"Правый Alt"},			{Key::BACKSPACE, L"Backspace"},	
+	{Key::ESCAPE, L"Escape"},				{Key::RETURN, L"Enter"},	{Key::PAUSE, L"Pause"},			{Key::SCROLL, L"Scroll"},			{Key::CAPS_LOCK, L"Caps Lock"},
+
+	{Key::NP0, L"Num 0"},		{Key::NP1, L"Num 1"},		{Key::NP2, L"Num 2"},		{Key::NP3, L"Num 3"},		{Key::NP4, L"Num 4"},
+	{Key::NP5, L"Num 5"},		{Key::NP6, L"Num 6"},		{Key::NP7, L"Num 7"},		{Key::NP8, L"Num 8"},		{Key::NP9, L"Num 9"},
+	{Key::NP_MUL, L"Num *"},	{Key::NP_DIV, L"Num /"},	{Key::NP_ADD, L"Num +"},	{Key::NP_SUB, L"Num -"},	{Key::NP_DECIMAL, L"Num ."},
+
+	{Key::PERIOD, L"."},	{Key::EQUALS, L"="},	{Key::COMMA, L","},		{Key::MINUS, L"-"},
+
+	{Key::OEM_1, L";"},		{Key::OEM_2, L"/"},		{Key::OEM_3, L"`"},		{Key::OEM_4, L"["},
+	{Key::OEM_5, L"\\"},	{Key::OEM_6, L"]"},		{Key::OEM_7, L"\'"}
+};
+
 void Keyboard::UpdateKeyboard()
 {
 	for (int i = 0; i < 256; i++)

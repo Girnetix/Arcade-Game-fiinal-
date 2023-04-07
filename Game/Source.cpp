@@ -33,7 +33,7 @@ bool CGame::OnUserUpdate(double deltaTime)
 	else
 		pWindow->PrintMsgInCenter(0, FG_CYAN, L"Time: %2d:%02d", min % 60, sec % 60);
 
-	if (Keyboard::GetKey(SHIFT).bHeld && Keyboard::GetKey(ALT).bHeld)
+	/*if (Keyboard::GetKey(SHIFT).bHeld && Keyboard::GetKey(ALT).bHeld && !changeLayout)
 		changeLayout = true;
 
 	if (changeLayout)
@@ -70,8 +70,12 @@ bool CGame::OnUserUpdate(double deltaTime)
 	else
 		pWindow->PrintMsg(0, 0, FG_WHITE, L"Russian");
 
-	pWindow->PrintMsg(0, 1, FG_YELLOW, L"Your text: %s", stringText.c_str());
-	pWindow->PrintSymbol(11 + stringTextCursor, 1, L' ', BG_BLUE);
+	pWindow->PrintSymbolAlpha(11 + stringTextCursor, 1, L' ', BG_WHITE);
+	pWindow->PrintMsgAlpha(0, 1, FG_CYAN, L"Your text: %s", stringText.c_str());*/
+
+	for (auto& key : KeyNamesMap)
+		if (Keyboard::GetKey(key.first).bHeld)
+			pWindow->PrintMsg(0, 1, FG_WHITE, L"Нажата кнопка: %s", key.second.c_str());
 
 	return true;
 }
