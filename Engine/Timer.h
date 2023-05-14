@@ -4,6 +4,7 @@
 
 #include <Windows.h>
 #include <list>
+#include <string>
 #include <functional>
 #include "Memory.h"
 
@@ -86,6 +87,18 @@ private:
 	std::list<SmartPointer<TimerHandle>> timerList;								//список указателей на все дескрипторы таймеров
 private:
 	TimerHandle* GetTimerHandle(unsigned int id);								//получить дескриптор таймера по ид
+};
+
+
+//класс для измерения времени выполнения различных функций
+class Timing
+{
+public:
+	Timing(std::function<void()> function, const std::wstring& str);
+	~Timing();
+private:
+	std::wstring description;
+	CTimerValue tp1, tp2;
 };
 
 extern SmartPointer<Timer> pTimer;

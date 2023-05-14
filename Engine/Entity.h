@@ -5,8 +5,9 @@
 #include "Timer.h"
 #include "Rendering.h"
 #include "PRNG.h"
+#include "Stream.h"
 
-enum class EntityType;
+enum class EntityType :uint16_t;
 class World;
 
 class Entity
@@ -15,7 +16,10 @@ public:
 	enum class Direction :uint8_t { Up = 24, Down, Left, Right };
 public:
 	Entity();
-	Entity(int x, int y, short color, Direction eDirection, double speed, const std::wstring& name = L"");
+	Entity(int x, int y, short color, Direction eDirection, double speed, const std::wstring& name);
+
+	void Create(Entity* entity);
+	void Delete(Entity* entity);
 
 	int GetX();
 	int GetY();
@@ -25,21 +29,28 @@ public:
 	short GetEntityColor();
 	std::wstring& GetName();
 	
+	bool IsMovable();
 	bool IsAlive();
+	virtual void KillEntity();
 
 	EntityType GetEntityType();
 	Direction GetDirection();
 
-	virtual void Update(double deltaTime) = 0;
+	void UpdateEntity(double deltaTime);
+
+	friend CStream& operator<<(CStream& stream, Entity& entity);
+	friend CStream& operator>>(CStream& stream, Entity& entity);
+
+public:
+	virtual void Update() = 0;
 	virtual void OnCollisionEntity(Entity* target) = 0;
 
 protected:
 	int x, y;
 	double speed, delay, time;
-	World* currentWorld;
 	wchar_t symbol;
 	short color;
-	bool isAlive;
+	bool Alive, Movable;
 	EntityType eEntityType;
 	Direction eDirection;
 	uint32_t id;

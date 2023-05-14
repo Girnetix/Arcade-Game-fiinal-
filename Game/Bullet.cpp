@@ -1,6 +1,6 @@
 #include "Bullet.h"
 
-Bullet::Bullet(int x, int y, short color, Direction eDirection, Entity* owner, double speed):Entity(x, y, color, eDirection, speed)
+Bullet::Bullet(int x, int y, short color, Direction eDirection, Entity* owner, double speed):Entity(x, y, color, eDirection, speed, L"Bullet")
 {
     eEntityType = EntityType::Bullet;
     this->owner = owner;
@@ -11,12 +11,8 @@ Entity* Bullet::GetOwner()
     return owner;
 }
 
-void Bullet::Update(double deltaTime)
+void Bullet::Update()
 {
-    time += deltaTime;
-    if (time < delay)
-        return;
-    time -= delay;
     switch (eDirection)
     {
         case Entity::Direction::Up:
@@ -57,6 +53,8 @@ void Bullet::OnCollisionEntity(Entity* target)
         case EntityType::Ammo:
             break;
         case EntityType::Life:
+            break;
+        case EntityType::Wall:
             break;
         default:
             break;

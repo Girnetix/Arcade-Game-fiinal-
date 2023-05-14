@@ -3,11 +3,15 @@
 #define ENGINE_H
 
 #include "Input.h"
+#include "ActionButton.h"
+#include "Console.h"
+#include "Stream.h"
 #include "Memory.h"
 #include "Rendering.h"
 #include "PRNG.h"
 #include "Timer.h"
 #include "Entity.h"
+#include "World.h"
 
 class CEngine
 {

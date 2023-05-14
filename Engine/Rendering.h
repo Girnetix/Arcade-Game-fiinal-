@@ -67,6 +67,7 @@ public:
 	void UpdateWindow();
 	void CloseWindow();
 	void ClearAllWindow();
+	void FillWindow(int x1, int y1, int x2, int y2, short color);
 
 	int GetScrWidth();
 	int GetScrHeight();

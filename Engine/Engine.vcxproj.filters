@@ -63,6 +63,15 @@
     <ClInclude Include="Input.h">
       <Filter>Файлы заголовков\Base</Filter>
     </ClInclude>
+    <ClInclude Include="ActionButton.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Stream.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering.cpp">
@@ -81,6 +90,15 @@
       <Filter>Исходные файлы\World</Filter>
     </ClCompile>
     <ClCompile Include="Input.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Stream.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ActionButton.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
   </ItemGroup>

@@ -8,10 +8,9 @@ Entity::Entity()
 	x = y = color = 0;
 	delay = speed = time = 0.0;
 	eDirection = Direction::Up;
-	isAlive = true;
+	Alive = Movable = true;
 	symbol = L' ';
 	name = L"";
-	currentWorld = nullptr;
 	id = counter++;
 }
 
@@ -23,6 +22,16 @@ Entity::Entity(int x, int y, short color, Direction eDirection, double speed, co
 	this->eDirection = eDirection;
 	this->name = name;
 	delay = 1.0 / speed;
+}
+
+void Entity::Create(Entity* entity)
+{
+	pWorld->CreateEntity(entity);
+}
+
+void Entity::Delete(Entity* entity)
+{
+	pWorld->DestroyEntity(entity);
 }
 
 int Entity::GetX()
@@ -55,9 +64,19 @@ std::wstring& Entity::GetName()
 	return name;
 }
 
+bool Entity::IsMovable()
+{
+	return Movable;
+}
+
 bool Entity::IsAlive()
 {
-	return isAlive;
+	return Alive;
+}
+
+void Entity::KillEntity()
+{
+	Alive = false;
 }
 
 EntityType Entity::GetEntityType()
@@ -68,4 +87,38 @@ EntityType Entity::GetEntityType()
 Entity::Direction Entity::GetDirection()
 {
 	return eDirection;
+}
+
+void Entity::UpdateEntity(double deltaTime)
+{
+	time += deltaTime;
+	if (time < delay)
+		return;
+	time -= delay;
+	Update();
+	pWindow->PrintSymbol(x, y, symbol, color);
+}
+
+CStream& operator<<(CStream& stream, Entity& entity)
+{
+	stream.Write(&entity.eEntityType, sizeof(EntityType));
+	stream.Write(&entity.eDirection, sizeof(Entity::Direction));
+
+	stream << entity.x << entity.y
+		   << entity.speed << entity.delay << entity.time
+		   << entity.symbol << entity.color << entity.Alive
+		   << entity.Movable << entity.id << entity.name;
+	return stream;
+}
+
+CStream& operator>>(CStream& stream, Entity& entity)
+{
+	stream.Read(&entity.eEntityType, sizeof(EntityType));
+	stream.Read(&entity.eDirection, sizeof(Entity::Direction));
+
+	stream >> entity.x >> entity.y
+		>> entity.speed >> entity.delay >> entity.time
+		>> entity.symbol >> entity.color >> entity.Alive
+		>> entity.Movable >> entity.id >> entity.name;
+	return stream;
 }

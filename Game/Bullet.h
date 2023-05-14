@@ -11,7 +11,7 @@ public:
 	Bullet(int x, int y, short color, Direction eDirection, Entity* owner, double speed);
 	Entity* GetOwner();
 
-	void Update(double deltaTime) override;
+	void Update() override;
 	void OnCollisionEntity(Entity* target) override;
 private:
 	Entity* owner;

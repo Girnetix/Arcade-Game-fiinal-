@@ -2,10 +2,12 @@
 
 void CEngine::Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const std::wstring& font, const std::wstring& AppName)
 {
+	pConsole = new CConsole();
 	pWindow = new Window();
 	pTimer = new Timer();
+	pWorld = new World();
 	pWindow->ConstructWindow(iScrWidth, iScrHeight, iFontX, iFontY, font, AppName);
-	if (pWindow.Get() && pTimer.Get())		//если всё запущено, то устанавливаем флаг о том, что движок запущен
+	if (pConsole.Get() && pWindow.Get() && pTimer.Get() && pWorld.Get())		//если всё запущено, то устанавливаем флаг о том, что движок запущен
 	{
 		bIsRunning = true;
 		GameThread();
@@ -16,6 +18,8 @@ void CEngine::Stop()
 {
 	pWindow.reset();
 	pTimer.reset();
+	pConsole.reset();
+	pWorld.reset();
 }
 
 void CEngine::GameThread()
@@ -47,7 +51,7 @@ void CEngine::GameThread()
 
 		if (!OnUserUpdate(deltaTime))
 			bIsRunning = false;
-
+		
 		pWindow->UpdateWindow();
 	}
 

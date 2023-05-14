@@ -57,7 +57,7 @@ void Window::ConstructWindow(int width, int height, int fontw, int fonth, const 
 	COORD coord = { (short)screenWidth, (short)screenHeight };
 	SetConsoleScreenBufferSize(hConsole, coord);
 	SetConsoleActiveScreenBuffer(hConsole);
-	CONSOLE_FONT_INFOEX cfi;
+	CONSOLE_FONT_INFOEX cfi{ 0 };
 	cfi.cbSize = sizeof(cfi);
 	cfi.nFont = 0;
 	cfi.dwFontSize.X = fontw;
@@ -83,7 +83,7 @@ void Window::PrintMsg(int x, int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -104,7 +104,7 @@ void Window::PrintMsgAlpha(int x, int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -125,7 +125,7 @@ void Window::PrintMsgLeftSide(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -146,7 +146,7 @@ void Window::PrintMsgLeftSideAlpha(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -167,7 +167,7 @@ void Window::PrintMsgRightSide(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -188,7 +188,7 @@ void Window::PrintMsgRightSideAlpha(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -209,7 +209,7 @@ void Window::PrintMsgInCenter(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -230,7 +230,7 @@ void Window::PrintMsgInCenterAlpha(int y, short color, const wchar_t* msg, ...)
 		va_start(args, msg);
 
 		int len = _vscwprintf(msg, args) + 1;
-		SmartPointer<wchar_t[]> buffer(new wchar_t[len * sizeof(char)]);
+		SmartPointer<wchar_t[]> buffer(new wchar_t[len]);
 		vswprintf_s(buffer.Get(), len, msg, args);
 
 		va_end(args);
@@ -289,6 +289,23 @@ void Window::ClearAllWindow()
 	{
 		screen[i].Char.UnicodeChar = ' ';
 		screen[i].Attributes = FG_BLACK | BG_BLACK;
+	}
+}
+
+void Window::FillWindow(int x1, int y1, int x2, int y2, short color)
+{
+	if (((x1 >= 0 && x1 < screenWidth) && (x2 >= 0 && x2 < screenWidth)) && ((y1 >= 0 && y1 < screenHeight) && (y2 >= 0 && y2 < screenHeight)))
+	{
+		if (x2 < x1)
+			std::swap(x1, x2);
+		if (y2 < y1)
+			std::swap(y1, y2);
+		for (int i = y1; i <= y2; i++)
+			for (int j = x1; j <= x2; j++)
+			{
+				screen[i * screenWidth + j].Char.UnicodeChar = ' ';
+				screen[i * screenWidth + j].Attributes = color;
+			}
 	}
 }
 

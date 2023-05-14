@@ -5,7 +5,7 @@
 #include <Engine/Entity.h>
 #include <Engine/World.h>
 
-enum class EntityType
+enum class EntityType :uint16_t
 {
 	Player, 
 	Bullet, 
@@ -16,7 +16,8 @@ enum class EntityType
 	MovableEntity, 
 	CheckPoint, 
 	Ammo, 
-	Life
+	Life,
+	Wall
 };
 
 #endif

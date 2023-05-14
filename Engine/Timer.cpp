@@ -1,4 +1,5 @@
 #include "Timer.h"
+#include "Console.h"
 
 SmartPointer<Timer> pTimer = nullptr;
 
@@ -280,4 +281,18 @@ double CTimerValue::GetMilliseconds()
 int64_t CTimerValue::Count()
 {
 	return value;
+}
+
+Timing::Timing(std::function<void()> function, const std::wstring& str)
+{
+	description = str;
+	pConsole->CPrintF(L"Измерение времени выполнения ф-ции %s", description.c_str());
+	tp1 = pTimer->GetHighPrecisionTime();
+	function();
+}
+
+Timing::~Timing()
+{
+	tp2 = pTimer->GetHighPrecisionTime();
+	pConsole->CPrintF(L"Выполнение ф-ции %s завершено за %3.3f сек.", description.c_str(), (tp2 - tp1).GetSeconds());
 }
