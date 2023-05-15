@@ -27,6 +27,8 @@ Entity::Entity(int x, int y, short color, Direction eDirection, double speed, co
 void Entity::Create(Entity* entity)
 {
 	pWorld->CreateEntity(entity);
+	if(Alive)
+		pWindow->PrintSymbol(x, y, symbol, color);
 }
 
 void Entity::Delete(Entity* entity)
@@ -92,11 +94,19 @@ Entity::Direction Entity::GetDirection()
 void Entity::UpdateEntity(double deltaTime)
 {
 	time += deltaTime;
-	if (time < delay)
+	if (time < delay)			//если время обновления не прошло, то ничего не делаем
 		return;
 	time -= delay;
+
+	//удаляем сущность из всего буфера и обновляем объект
+	pWorld->entityBuf.DeleteEntityFromBuffer(this);
 	Update();
-	pWindow->PrintSymbol(x, y, symbol, color);
+
+	//возвращаем объект в буфер
+	pWorld->entityBuf.SetEntityToBuffer(this);
+
+	if (Alive)		//если объект жив, то отрисовываем его после обновления
+		pWindow->PrintSymbol(x, y, symbol, color);
 }
 
 CStream& operator<<(CStream& stream, Entity& entity)

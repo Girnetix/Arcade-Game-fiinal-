@@ -33,6 +33,12 @@
     <ClCompile Include="GameMenu.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Исходные файлы\Entities</Filter>
+    </ClCompile>
+    <ClCompile Include="Runner.cpp">
+      <Filter>Исходные файлы\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntitiesTypes.h">
@@ -46,6 +52,12 @@
     </ClInclude>
     <ClInclude Include="GameMenu.h">
       <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon.h">
+      <Filter>Файлы заголовков\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Runner.h">
+      <Filter>Файлы заголовков\Entities</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

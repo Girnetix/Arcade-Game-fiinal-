@@ -4,6 +4,17 @@ Bullet::Bullet(int x, int y, short color, Direction eDirection, Entity* owner, d
 {
     eEntityType = EntityType::Bullet;
     this->owner = owner;
+    symbol = L'O';
+
+    switch (eDirection)
+    {
+        case Direction::Up:    this->y--;		break;
+        case Direction::Down:  this->y++;		break;
+        case Direction::Left:  this->x--;		break;
+        case Direction::Right: this->x++;		break;
+    }
+
+    Create(this);
 }
 
 Entity* Bullet::GetOwner()
@@ -11,52 +22,33 @@ Entity* Bullet::GetOwner()
     return owner;
 }
 
-void Bullet::Update()
+void Bullet::Update()   
 {
+   //меняем координаты в зависимости от направления
     switch (eDirection)
     {
-        case Entity::Direction::Up:
-
-            break;
-        case Entity::Direction::Down:
-
-            break;
-        case Entity::Direction::Left:
-
-            break;
-        case Entity::Direction::Right:
-
-            break;
+        case Direction::Up:		y--; break;
+        case Direction::Down:	y++; break;
+        case Direction::Left:	x--; break;
+        case Direction::Right:	x++; break;
     }
+
 }
 
 void Bullet::OnCollisionEntity(Entity* target)
 {
     switch (target->GetEntityType())
     {
-        case EntityType::Player:
-            break;
-        case EntityType::Bullet:
-            break;
-        case EntityType::Cannon:
-            break;
-        case EntityType::Runner:
-            break;
-        case EntityType::Randomer:
-            break;
-        case EntityType::Chaser:
-            break;
-        case EntityType::MovableEntity:
-            break;
-        case EntityType::CheckPoint:
-            break;
-        case EntityType::Ammo:
-            break;
-        case EntityType::Life:
-            break;
-        case EntityType::Wall:
-            break;
+        case EntityType::Cannon:         this->KillEntity();     break;
+        case EntityType::MovableEntity:  this->KillEntity();     break;
+        case EntityType::CheckPoint:     this->KillEntity();     break;
+        case EntityType::Ammo:           this->KillEntity();     break;
+        case EntityType::Life:           this->KillEntity();     break;
+        case EntityType::Wall:           this->KillEntity();     break;
+
         default:
+            this->KillEntity();
+            target->KillEntity();
             break;
     }
 }
