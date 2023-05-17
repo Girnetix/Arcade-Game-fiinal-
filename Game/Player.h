@@ -13,6 +13,7 @@ public:
 	void Update() override;
 	void OnCollisionEntity(Entity* target) override;
 	void KillEntity() override;
+	int Lifes() { return lifes; }
 private:
 	void Shoot();
 	void MoveUp();
