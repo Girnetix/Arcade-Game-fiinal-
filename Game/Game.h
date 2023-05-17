@@ -8,8 +8,7 @@ enum CoreGameState
 {
 	Menu,
 	Game,
-	Editor,
-	Hints
+	Editor
 };
 
 class CGame :public CEngine
@@ -18,6 +17,8 @@ public:
 	bool OnUserCreate() override;
 	bool OnUserUpdate(double deltaTime) override;
 	void OnUserDestroy() override;
+	void UpdateGame();
+	void UpdateEditor();
 private:
 	CoreGameState coreGameState;
 	CMenu menu;

@@ -6,8 +6,10 @@ void CEngine::Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const
 	pWindow = new Window();
 	pTimer = new Timer();
 	pWorld = new World();
+	pNumGenerator = new default_number_generator();
 	pWindow->ConstructWindow(iScrWidth, iScrHeight, iFontX, iFontY, font, AppName);
-	if (pConsole.Get() && pWindow.Get() && pTimer.Get() && pWorld.Get())		//если всё запущено, то устанавливаем флаг о том, что движок запущен
+	//если всё запущено, то устанавливаем флаг о том, что движок запущен
+	if (pConsole.Get() && pWindow.Get() && pTimer.Get() && pWorld.Get() && pNumGenerator.Get())
 	{
 		bIsRunning = true;
 		GameThread();

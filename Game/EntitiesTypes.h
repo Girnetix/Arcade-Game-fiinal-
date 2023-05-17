@@ -17,7 +17,8 @@ enum class EntityType :uint16_t
 	CheckPoint, 
 	Ammo, 
 	Life,
-	Wall
+	Wall,
+	FinishMarker
 };
 
 #endif

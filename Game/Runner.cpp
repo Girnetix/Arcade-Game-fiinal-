@@ -12,26 +12,51 @@ void Runner::OnCollisionEntity(Entity* target)
 	switch (target->GetEntityType())
 	{
 		case EntityType::Player:
+			target->KillEntity();
+			break;
+
 		case EntityType::Bullet:
-		case EntityType::Cannon:
+			this->KillEntity();
+			target->KillEntity();
+			break;
+
 		case EntityType::Runner:
-		case EntityType::Randomer:
-		case EntityType::Chaser:
-		case EntityType::MovableEntity:
-		case EntityType::CheckPoint:
-		case EntityType::Ammo:
-		case EntityType::Life:
-		case EntityType::Wall:
+			break;
+
 		default:
+			this->ChangeDirection();
 			break;
 	}
 }
 
 void Runner::Update()
 {
+	int testX = x;
+
 	switch (eDirection)
 	{
-		case Direction::Left:  x--; break;
-		case Direction::Right: x++; break;
+		case Direction::Left:  testX--; break;
+		case Direction::Right: testX++; break;
 	}
+
+	if (pWorld->GetEntity(testX, y)->GetEntityType() == EntityType::Wall)
+		ChangeDirection();
+	else
+		x = testX;
+}
+
+void Runner::ChangeDirection()
+{
+	switch (eDirection)
+	{
+		case Direction::Left:
+			eDirection = Direction::Right;
+			x++; 
+			break;
+
+		case Direction::Right:
+			eDirection = Direction::Left;
+			x--;
+			break;
+	}	
 }

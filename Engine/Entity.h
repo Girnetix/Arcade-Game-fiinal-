@@ -24,6 +24,7 @@ public:
 	int GetX();
 	int GetY();
 	uint32_t GetId();
+	double GetSpeed();
 
 	wchar_t GetEntitySymbol();
 	short GetEntityColor();

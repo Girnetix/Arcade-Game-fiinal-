@@ -12,6 +12,7 @@ public:
 	void OnCollisionEntity(Entity* target) override;
 private:
 	void Update() override;
+	void ChangeDirection();
 };
 
 #endif

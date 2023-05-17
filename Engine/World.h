@@ -29,7 +29,7 @@ public:
 		static SmartPointer<Entity* []> entitiesBuf;
 	};
 	EntityBuffer entityBuf;
-private:
+public:
 	std::list<SmartPointer<Entity>> entitiesList;
 	CFileStream file;
 	int worldWidth, worldHeight, entitiesCount;

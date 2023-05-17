@@ -11,7 +11,6 @@ Cannon::Cannon(int x, int y, short color, Direction eDirection, double speed) :E
 		case Direction::Right:	symbol = '-'; break;
 	}
 	Create(this);
-	pWindow->PrintSymbol(x, y, symbol, color);
 }
 
 void Cannon::OnCollisionEntity(Entity* target)

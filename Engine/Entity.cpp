@@ -51,6 +51,11 @@ uint32_t Entity::GetId()
 	return id;
 }
 
+double Entity::GetSpeed()
+{
+	return speed;
+}
+
 wchar_t Entity::GetEntitySymbol()
 {
 	return symbol;
@@ -93,6 +98,11 @@ Entity::Direction Entity::GetDirection()
 
 void Entity::UpdateEntity(double deltaTime)
 {
+	if (!Movable && Alive)
+	{
+		pWindow->PrintSymbol(x, y, symbol, color);
+		return;
+	}
 	time += deltaTime;
 	if (time < delay)			//если время обновления не прошло, то ничего не делаем
 		return;
