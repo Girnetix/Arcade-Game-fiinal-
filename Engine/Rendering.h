@@ -62,7 +62,7 @@ public:
 	void PrintMsgInCenterAlpha(int y, short color, const wchar_t* msg, ...);
 	void PrintSymbol(int x, int y, const wchar_t msg, short color = FG_WHITE | BG_BLACK);
 	void PrintSymbolAlpha(int x, int y, const wchar_t msg, short color = FG_WHITE | BG_BLACK);
-	void ChangeAppNme(const std::wstring& nameApp);
+	void ChangeAppName(const std::wstring& nameApp);
 	void AddToAppName(const std::wstring& str);
 	void UpdateWindow();
 	void CloseWindow();

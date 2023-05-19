@@ -13,8 +13,15 @@ public:
 	void Update() override;
 	void OnCollisionEntity(Entity* target) override;
 	void KillEntity() override;
+	int Ammo() { return countOfBullets; }
+	int MaxAmmo() { return maxCountOfBullets; }
 	int Lifes() { return lifes; }
 	bool IsRespawning() { return Respawning; }
+	void AddKill() { kills++; };
+	void AddDeath() { deaths++; }
+	int Kills() { return kills; }
+	int Deaths() { return deaths; }
+	void PrintInfo();
 private:
 	void Shoot();
 	void MoveUp();
@@ -30,6 +37,7 @@ private:
 	int countOfBullets = 10;
 	int maxCountOfBullets = 30;
 	int lifes = 3;
+	int kills = 0, deaths = 0;
 	int xRespawn, yRespawn;
 	Direction directionRespawn;
 	CTimerValue moveSpeedTp1, moveSpeedTp2;

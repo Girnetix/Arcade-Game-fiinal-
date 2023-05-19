@@ -29,6 +29,7 @@ public:
 		void SetEntityToBuffer(Entity *entity);
 		void DeleteEntityFromBuffer(Entity* entity);
 		Entity* GetEntityFromBuffer(int x, int y);
+		void EntityBufferClear();
 	private:
 		static SmartPointer<Entity* []> entitiesBuf;
 	};

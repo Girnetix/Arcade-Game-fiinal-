@@ -8,6 +8,7 @@ void CEngine::Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const
 	pWorld = new World();
 	pNumGenerator = new default_number_generator();
 	pWindow->ConstructWindow(iScrWidth, iScrHeight, iFontX, iFontY, font, AppName);
+	appName = AppName;
 	//если всё запущено, то устанавливаем флаг о том, что движок запущен
 	if (pConsole.Get() && pWindow.Get() && pTimer.Get() && pWorld.Get() && pNumGenerator.Get())
 	{
@@ -18,10 +19,12 @@ void CEngine::Start(int iScrWidth, int iScrHeight, int iFontX, int iFontY, const
 
 void CEngine::Stop()
 {
-	pWindow.reset();
-	pTimer.reset();
-	pConsole.reset();
+	pNumGenerator.reset();
 	pWorld.reset();
+	pTimer.reset();
+	pWindow.reset();
+	pConsole.reset();
+	
 }
 
 void CEngine::GameThread()
@@ -30,7 +33,7 @@ void CEngine::GameThread()
 		bIsRunning = false;
 
 	int fps = 0;
-	double fpsTime = 0.0;
+	double fpsTime = 1.0;
 	pTimer->ResetTimer();
 
 	while (bIsRunning)
@@ -46,8 +49,8 @@ void CEngine::GameThread()
 		{
 			fpsTime -= 1.0;
 			wchar_t buf[256]{};
-			swprintf_s(buf, 256, L"FPS: %d FPS(instant): %3.2f", fps, 1.0 / deltaTime);
-			pWindow->ChangeAppNme(buf);
+			swprintf_s(buf, 256, L"%s - FPS: %d", appName.c_str(), fps);
+			pWindow->ChangeAppName(buf);
 			fps = 0;
 		}
 

@@ -12,6 +12,7 @@
 #include "Timer.h"
 #include "Entity.h"
 #include "World.h"
+#include <algorithm>
 
 class CEngine
 {
@@ -29,6 +30,7 @@ protected:
 	bool bIsRunning = false;
 	bool bShowFPS = false;
 	bool bShowPing = false;
+	std::wstring appName;
 };
 
 #endif

@@ -262,7 +262,7 @@ void Window::PrintSymbolAlpha(int x, int y, const wchar_t msg, short color)
 }
 
 
-void Window::ChangeAppNme(const std::wstring& AppName)
+void Window::ChangeAppName(const std::wstring& AppName)
 {
 	this->AppName = AppName;
 	SetConsoleTitle(AppName.c_str());
@@ -270,7 +270,7 @@ void Window::ChangeAppNme(const std::wstring& AppName)
 
 void Window::AddToAppName(const std::wstring& str)
 {
-	ChangeAppNme(AppName + L" " + str);
+	ChangeAppName(AppName + L" " + str);
 }
 
 void Window::UpdateWindow()

@@ -22,8 +22,16 @@ void Randomer::OnCollisionEntity(Entity* target)
 			break;
 
 		case EntityType::Bullet:
-			target->KillEntity();
+		{
+			Bullet* bullet = (Bullet*)target;
+			if (bullet->GetOwner()->GetEntityType() == EntityType::Player)
+			{
+				Player* player = (Player*)bullet->GetOwner();
+				player->AddKill();
+			}
 			this->KillEntity();
+			target->KillEntity();
+		}
 			break;
 
 		case EntityType::Cannon:
@@ -71,13 +79,28 @@ void Randomer::Update()
 			continue;
 		Entity* entity = pWorld->GetEntity(testX, testY);
 		if (entity != nullptr)
-			if (entity->GetEntityType() == EntityType::Wall && moveIsLegal)
+		{
+			if (entity->GetEntityType() == EntityType::Player && moveIsLegal)
+			{
+				x = testX;
+				y = testY;
+			}
+			if (entity->GetEntityType() == EntityType::Bullet && moveIsLegal)
+			{
+				x = testX;
+				y = testY;
+			}
+			else
 			{
 				moveIsLegal = false;
 				failedAttempts++;
 				continue;
 			}
-		x = testX;
-		y = testY;
+		}
+		else
+		{
+			x = testX;
+			y = testY;
+		}
 	}
 }

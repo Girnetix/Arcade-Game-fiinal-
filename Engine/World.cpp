@@ -23,6 +23,10 @@ void World::CreateWorld(const std::string& worldname)
 void World::SaveWorld()
 {
 	file.Close();
+	entityBuf.EntityBufferClear();
+	entitiesList.clear();
+	entitiesCount = 0;
+	file.Clear();
 }
 
 void World::LoadWorld(const std::string& worldname)
@@ -79,4 +83,10 @@ void World::EntityBuffer::DeleteEntityFromBuffer(Entity* entity)
 Entity* World::EntityBuffer::GetEntityFromBuffer(int x, int y)
 {
 	return entitiesBuf[y * pWindow->GetScrWidth() + x];
+}
+
+void World::EntityBuffer::EntityBufferClear()
+{
+	for (int i = 0; i < pWindow->GetScrWidth() * pWindow->GetScrHeight(); i++)
+		entitiesBuf[i] = nullptr;
 }

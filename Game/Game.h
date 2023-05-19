@@ -22,15 +22,16 @@ enum MainGameState
 {
 	Starting,
 	Running,
+	GameWon,
+	GameOver,
 	Finishing
 };
 
 enum EditorState
 {
 	Editing,
-	CreatingRunner,
 	CreatingRandomer,
-	CreatingCannon
+	EditingSpeed
 };
 
 enum PeekRandomerPositions
@@ -51,28 +52,26 @@ private:
 	void LoadWorld();
 	void UpdateWorld(double deltaTime);
 	void CloseWorld();
+	void DrawLegend();
 private:
-	void CreateRunner(int x, int y);
 	void CreateRandomer();
-	void CreateCannon(int x, int y);
 private:
 	CoreGameState coreGameState;
 	MainGameState mainGameState;
 	EditorState editorState;
 	PeekRandomerPositions randomerPositions = First;
 	CMenu MainMenu;
-	CMenu menuCreatingRunner;
-	CMenu menuCreatingRandomer;
-	CMenu menuCreatingCannon;
 	Entity::Direction entityDirection;
 	CTimerValue exitButtonPressedTp1, exitButtonPressedTp2;
-	CButton exitButton;
 	int x, y, minX, minY, maxX, maxY;
+	int countOfPlayers = 0;
+	int totalKills = 0, totalDeaths = 0, totalScore = 0;
 	bool gameOver = false, gameWon = false;
+	Entity* pickedEntity = nullptr;
+	double gameTime = 0.0, returningTimeInMenu = 10.0;
+	int sec = 0, min = 0, hour = 0;
 private:
 	int xCurs = 0, yCurs = 0;
-
 };
-
 
 #endif

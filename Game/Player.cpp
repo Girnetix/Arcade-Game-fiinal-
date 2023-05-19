@@ -55,7 +55,7 @@ void Player::Update()
 	else
 	{
 		timeForRespawning -= pTimer->GetDeltaTimeSec();
-		pWindow->PrintMsgRightSide(10, FG_WHITE, L"Возрождение через: %d", (int)timeForRespawning + 1);
+		pWindow->PrintMsgRightSide(1, FG_CYAN, L"Возрождение через: %d", (int)timeForRespawning + 1);
 		if (timeForRespawning <= 0.0)
 		{
 			color = FG_CYAN;
@@ -104,6 +104,8 @@ void Player::OnCollisionEntity(Entity* target)
 		case EntityType::Ammo:
 			target->KillEntity();
 			countOfBullets += 5;
+			if (countOfBullets > maxCountOfBullets)
+				countOfBullets = maxCountOfBullets;
 			break;
 
 		case EntityType::Life:
@@ -125,10 +127,19 @@ void Player::KillEntity()
 {
 	if (Respawning)
 		return;
+	deaths++;
 	color = FG_RED;
 	Respawning = true;
 	timeForRespawning = timeRespawn;
 	lifes--;
+}
+
+void Player::PrintInfo()
+{
+	pWindow->PrintMsg(90, 3, FG_RED, L"Жизни: %d", lifes);
+	pWindow->PrintMsg(90, 4, FG_YELLOW, L"Патроны: %d/%d", countOfBullets, maxCountOfBullets);
+	pWindow->PrintMsg(0, 43, FG_CYAN, L"Текущая позиция: (x: %d; y: %d)", x, y);
+	pWindow->PrintMsg(0, 44, FG_CYAN, L"Место возрождения: (x: %d; y: %d)", xRespawn, yRespawn);
 }
 
 void Player::Shoot()

@@ -26,6 +26,11 @@ public:
 	uint32_t GetId();
 	double GetSpeed();
 
+	void SetX(int x) { this->x = x; }
+	void SetY(int y) { this->y = y; }
+	void SetSpeed(double speed) { this->speed = speed; if (speed > 0) delay = 1.0 / speed; }
+	virtual void SetDirection(Entity::Direction direction) { this->eDirection = direction; }
+
 	wchar_t GetEntitySymbol();
 	short GetEntityColor();
 	std::wstring& GetName();

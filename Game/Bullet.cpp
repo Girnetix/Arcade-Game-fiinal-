@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "Player.h"
 
 Bullet::Bullet(int x, int y, short color, Direction eDirection, Entity* owner, double speed):Entity(x, y, color, eDirection, speed, L"Bullet")
 {
@@ -52,6 +53,32 @@ void Bullet::OnCollisionEntity(Entity* target)
 {
     switch (target->GetEntityType())
     {
+        case EntityType::Player:         
+            this->KillEntity();
+            target->KillEntity();
+            break;
+        case EntityType::Runner:
+        {
+            if (this->GetOwner()->GetEntityType() == EntityType::Player)
+            {
+                Player* player = (Player*)this->GetOwner();
+                player->AddKill();
+            }
+            this->KillEntity();
+            target->KillEntity();
+        }
+            break;
+        case EntityType::Randomer:
+        {
+            if (this->GetOwner()->GetEntityType() == EntityType::Player)
+            {
+                Player* player = (Player*)this->GetOwner();
+                player->AddKill();
+            }
+            this->KillEntity();
+            target->KillEntity();
+        }
+            break;
         case EntityType::Cannon:         this->KillEntity();     break;
         case EntityType::MovableEntity:  this->KillEntity();     break;
         case EntityType::CheckPoint:     this->KillEntity();     break;
@@ -60,11 +87,7 @@ void Bullet::OnCollisionEntity(Entity* target)
         case EntityType::Wall:           this->KillEntity();     break;
 
         default:
-            if (this->GetOwner() != target)
-            {
                 this->KillEntity();
-                target->KillEntity();
-            }
             break;
     }
 }

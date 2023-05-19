@@ -1,4 +1,5 @@
 #include "Runner.h"
+#include "Player.h"
 
 Runner::Runner(int x, int y, short color, Direction eDirection, double speed) : Entity(x, y, color, eDirection, speed, L"Runner")
 {
@@ -15,8 +16,16 @@ void Runner::OnCollisionEntity(Entity* target)
 			break;
 
 		case EntityType::Bullet:
+		{
+			Bullet* bullet = (Bullet*)target;
+			if (bullet->GetOwner()->GetEntityType() == EntityType::Player)
+			{
+				Player* player = (Player*)bullet->GetOwner();
+				player->AddKill();
+			}
 			this->KillEntity();
 			target->KillEntity();
+		}
 			break;
 
 		case EntityType::Runner:
@@ -37,9 +46,14 @@ void Runner::Update()
 		case Direction::Left:  testX--; break;
 		case Direction::Right: testX++; break;
 	}
-
-	if (pWorld->GetEntity(testX, y)->GetEntityType() == EntityType::Wall)
-		ChangeDirection();
+	Entity* entity = pWorld->GetEntity(testX, y);
+	if (entity != nullptr)
+	{
+		if (entity->GetEntityType() == EntityType::Wall)
+			ChangeDirection();
+		else
+			x = testX;
+	}
 	else
 		x = testX;
 }

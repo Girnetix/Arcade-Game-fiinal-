@@ -19,6 +19,6 @@ void Cannon::OnCollisionEntity(Entity* target)
 
 void Cannon::Update()
 {
-	Create(new Bullet(x, y, color, eDirection, this, 50.0));
+	Create(new Bullet(x, y, color, eDirection, this, 20.0));
 }
 
