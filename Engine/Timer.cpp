@@ -39,8 +39,8 @@ void Timer::UpdateTimer()
 	QueryPerformanceCounter((LARGE_INTEGER*)&timeNow);
 	deltaTime = (double)(timeNow - timeBefore) / frequency;								//получаем время между вызовами этого метода (в секундах)
 	workingTime += deltaTime;
-	if (deltaTime > 0.1)
-		deltaTime = 0.1;
+	if (deltaTime > 0.3)
+		deltaTime = 0.3;
 	timeBefore = timeNow;
 	for (auto iterator = timerList.begin(); iterator != timerList.end();)
 	{

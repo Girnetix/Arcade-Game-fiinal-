@@ -20,7 +20,11 @@ public:
 	class EntityBuffer
 	{
 	public:
-		EntityBuffer() { entitiesBuf = new Entity * [pWindow->GetScrWidth() * pWindow->GetScrHeight()]; }
+		EntityBuffer() { 
+			entitiesBuf = new Entity * [pWindow->GetScrWidth() * pWindow->GetScrHeight()];
+			for (int i = 0; i < pWindow->GetScrWidth() * pWindow->GetScrHeight(); i++)
+				entitiesBuf[i] = nullptr;
+		}
 		~EntityBuffer() { entitiesBuf.reset(); }
 		void SetEntityToBuffer(Entity *entity);
 		void DeleteEntityFromBuffer(Entity* entity);
@@ -32,7 +36,7 @@ public:
 public:
 	std::list<SmartPointer<Entity>> entitiesList;
 	CFileStream file;
-	int worldWidth, worldHeight, entitiesCount;
+	size_t entitiesCount;
 	std::string worldName;
 };
 

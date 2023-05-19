@@ -95,13 +95,13 @@
     <ClCompile Include="Stream.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
-    <ClCompile Include="Console.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ActionButton.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
     <ClCompile Include="PRNG.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
   </ItemGroup>

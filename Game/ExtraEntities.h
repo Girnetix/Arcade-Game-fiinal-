@@ -16,14 +16,14 @@ public:
 class Life : public Entity
 {
 public:
-	Life(int x, int y, short color = FG_CYAN);
+	Life(int x, int y, short color = FG_RED);
 	void Update() override;
 	void OnCollisionEntity(Entity* target) override;
 };
 class CheckPoint : public Entity
 {
 public:
-	CheckPoint(int x, int y, short color = FG_BLACK|BG_WHITE);
+	CheckPoint(int x, int y, short color = FG_BLACK | BG_WHITE);
 	void Update() override;
 	void OnCollisionEntity(Entity* target) override;
 };

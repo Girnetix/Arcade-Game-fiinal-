@@ -73,7 +73,7 @@ void CFileStream::Create()
 	{
 		file.open(fileName, std::fstream::out);
 		file.close();
-		file.open(fileName, std::fstream::in | std::fstream::out);
+		file.open(fileName, std::fstream::in | std::fstream::out | std::fstream::binary);
 	}
 	catch (const std::exception& ex)
 	{
@@ -87,7 +87,7 @@ void CFileStream::Create(const std::string& fileName)
 	{
 		file.open(fileName, std::fstream::out);
 		file.close();
-		file.open(fileName, std::fstream::in | std::fstream::out);
+		file.open(fileName, std::fstream::in | std::fstream::out | std::fstream::binary);
 		this->fileName = fileName;
 	}
 	catch (const std::exception& ex)
@@ -100,8 +100,8 @@ void CFileStream::Open()
 {
 	try
 	{
-		file.open(fileName, std::fstream::in | std::fstream::out);
-		file >> bufferSize;
+		file.open(fileName, std::fstream::in | std::fstream::out | std::fstream::binary);
+		file.read((char*)&bufferSize, sizeof(bufferSize));
 		if (bufferSize > MAX_FILE_STREAM_SIZE)
 			throw std::exception("Opening file is too big");
 		buffer.resize(bufferSize);
@@ -117,8 +117,8 @@ void CFileStream::Open(const std::string& fileName)
 {
 	try
 	{
-		file.open(fileName, std::fstream::in | std::fstream::out);
-		file >> bufferSize;
+		file.open(fileName, std::fstream::in | std::fstream::out | std::fstream::binary);
+		file.read((char*)&bufferSize, sizeof(bufferSize));
 		if (bufferSize > MAX_FILE_STREAM_SIZE)
 			throw std::exception("Opening file is too big");
 		buffer.resize(bufferSize);
@@ -138,16 +138,18 @@ void CFileStream::Close()
 
 	file.close();
 	
-	file.open(fileName, std::fstream::trunc | std::fstream::out);
+	file.open(fileName, std::fstream::trunc | std::fstream::out | std::fstream::binary);
 	
-	file << bufferSize;
+	file.write((const char*)&bufferSize, sizeof(bufferSize));
 	file.write(buffer.data(), bufferSize);
 	file.close();
 }
 
 void CFileStream::Clear()
 {
-
+	buffer.clear();
+	buffer.reserve(MAX_FILE_STREAM_SIZE);
+	extractionOffset = bufferSize = 0;
 }
 
 void CFileStream::Delete()

@@ -10,7 +10,6 @@ Cannon::Cannon(int x, int y, short color, Direction eDirection, double speed) :E
 		case Direction::Left:	symbol = '-'; break;
 		case Direction::Right:	symbol = '-'; break;
 	}
-	Create(this);
 }
 
 void Cannon::OnCollisionEntity(Entity* target)

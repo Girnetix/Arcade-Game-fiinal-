@@ -27,9 +27,16 @@ enum MainGameState
 
 enum EditorState
 {
-	Starting,
-	Running,
-	Finishing
+	Editing,
+	CreatingRunner,
+	CreatingRandomer,
+	CreatingCannon
+};
+
+enum PeekRandomerPositions
+{
+	First,
+	Second
 };
 
 class CGame :public CEngine
@@ -45,11 +52,26 @@ private:
 	void UpdateWorld(double deltaTime);
 	void CloseWorld();
 private:
+	void CreateRunner(int x, int y);
+	void CreateRandomer();
+	void CreateCannon(int x, int y);
+private:
 	CoreGameState coreGameState;
 	MainGameState mainGameState;
 	EditorState editorState;
-	CMenu menu;
+	PeekRandomerPositions randomerPositions = First;
+	CMenu MainMenu;
+	CMenu menuCreatingRunner;
+	CMenu menuCreatingRandomer;
+	CMenu menuCreatingCannon;
+	Entity::Direction entityDirection;
+	CTimerValue exitButtonPressedTp1, exitButtonPressedTp2;
+	CButton exitButton;
+	int x, y, minX, minY, maxX, maxY;
 	bool gameOver = false, gameWon = false;
+private:
+	int xCurs = 0, yCurs = 0;
+
 };
 
 

@@ -13,7 +13,7 @@ class World;
 class Entity
 {
 public:
-	enum class Direction :uint8_t { Up = 24, Down, Left, Right };
+	enum class Direction :uint8_t { Up = 24, Down, Right, Left };
 public:
 	Entity();
 	Entity(int x, int y, short color, Direction eDirection, double speed, const std::wstring& name);
@@ -43,8 +43,8 @@ public:
 	friend CStream& operator>>(CStream& stream, Entity& entity);
 
 public:
-	virtual void Update() = 0;
-	virtual void OnCollisionEntity(Entity* target) = 0;
+	virtual void Update() {};
+	virtual void OnCollisionEntity(Entity* target) {};
 
 protected:
 	int x, y;

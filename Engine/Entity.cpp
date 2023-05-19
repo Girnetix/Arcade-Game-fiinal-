@@ -21,14 +21,18 @@ Entity::Entity(int x, int y, short color, Direction eDirection, double speed, co
 	this->color = color;
 	this->eDirection = eDirection;
 	this->name = name;
-	delay = 1.0 / speed;
+	this->speed = speed;
+	if (speed > 0.0)
+		delay = 1.0 / speed;
 }
 
 void Entity::Create(Entity* entity)
 {
-	pWorld->CreateEntity(entity);
-	if(Alive)
-		pWindow->PrintSymbol(x, y, symbol, color);
+	if (entity->Alive)
+	{
+		pWorld->CreateEntity(entity);
+		pWindow->PrintSymbol(entity->x, entity->y, entity->symbol, entity->color);
+	}
 }
 
 void Entity::Delete(Entity* entity)
@@ -98,14 +102,20 @@ Entity::Direction Entity::GetDirection()
 
 void Entity::UpdateEntity(double deltaTime)
 {
+	//если объект не двигается и он жив, то просто отрисовываем его
 	if (!Movable && Alive)
 	{
 		pWindow->PrintSymbol(x, y, symbol, color);
 		return;
 	}
 	time += deltaTime;
-	if (time < delay)			//если время обновления не прошло, то ничего не делаем
+	if (time < delay)			//если время обновления не прошло, то просто отрисовываем объект
+	{
+		if (Alive)		//если объект жив, то отрисовываем его после обновления
+			pWindow->PrintSymbol(x, y, symbol, color);
 		return;
+	}
+		
 	time -= delay;
 
 	//удаляем сущность из всего буфера и обновляем объект

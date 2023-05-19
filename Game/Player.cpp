@@ -7,32 +7,58 @@ Player::Player(int x, int y, short color, Direction eDirection, double speed, co
 	symbol = (char)eDirection;
 	directionRespawn = eDirection;
 	eEntityType = EntityType::Player;
+	this->speed = 0.0;
+	this->delay = 0.0;
+	moveSpeedTp1 = moveSpeedTp2 = shootSpeedTp1 = shootSpeedTp2 = pTimer->GetHighPrecisionTime();
 	this->name = name;
-	Create(this);
 }
 
 void Player::Update()
 {
 	if (!Respawning)
 	{
-		if (Keyboard::GetKey(MOUSE_LBUTTON).bPressed)
-			Shoot();
-		if (Keyboard::GetKey(Key_W).bPressed || Keyboard::GetKey(UP).bPressed)
-			MoveUp();
-		if (Keyboard::GetKey(Key_S).bPressed || Keyboard::GetKey(DOWN).bPressed)
-			MoveDown();
-		if (Keyboard::GetKey(Key_A).bPressed || Keyboard::GetKey(LEFT).bPressed)
-			MoveLeft();
-		if (Keyboard::GetKey(Key_D).bPressed || Keyboard::GetKey(UP).bPressed)
-			MoveRight();
+		moveSpeedTp1 = shootSpeedTp1 = pTimer->GetHighPrecisionTime();
+		if (Keyboard::GetKey(MOUSE_LBUTTON).bHeld)
+			if ((shootSpeedTp1 - shootSpeedTp2).GetSeconds() >= shootingSpeed)
+			{
+				Shoot();
+				shootSpeedTp2 = shootSpeedTp1;
+			}
+			
+		if (Keyboard::GetKey(Key_W).bHeld || Keyboard::GetKey(UP).bHeld)
+			if ((moveSpeedTp1 - moveSpeedTp2).GetSeconds() >= movementSpeed)
+			{
+				MoveUp();
+				moveSpeedTp2 = moveSpeedTp1;
+			}
+		if (Keyboard::GetKey(Key_S).bHeld || Keyboard::GetKey(DOWN).bHeld)
+			if ((moveSpeedTp1 - moveSpeedTp2).GetSeconds() >= movementSpeed)
+			{
+				MoveDown();
+				moveSpeedTp2 = moveSpeedTp1;
+			}
+		if (Keyboard::GetKey(Key_A).bHeld || Keyboard::GetKey(LEFT).bHeld)	
+			if ((moveSpeedTp1 - moveSpeedTp2).GetSeconds() >= movementSpeed)
+			{
+				MoveLeft();
+				moveSpeedTp2 = moveSpeedTp1;
+			}
+		if (Keyboard::GetKey(Key_D).bHeld || Keyboard::GetKey(RIGHT).bHeld)	
+			if ((moveSpeedTp1 - moveSpeedTp2).GetSeconds() >= movementSpeed)
+			{
+				MoveRight();
+				moveSpeedTp2 = moveSpeedTp1;
+			}
+
 		symbol = (char)eDirection;
 	}
 	else
 	{
 		timeForRespawning -= pTimer->GetDeltaTimeSec();
-		pWindow->PrintMsgRightSide(10, FG_WHITE, L"Возрождение через: %3.1f", timeForRespawning);
+		pWindow->PrintMsgRightSide(10, FG_WHITE, L"Возрождение через: %d", (int)timeForRespawning + 1);
 		if (timeForRespawning <= 0.0)
 		{
+			color = FG_CYAN;
 			Respawning = false;
 			x = xRespawn;
 			y = yRespawn;
@@ -46,8 +72,14 @@ void Player::OnCollisionEntity(Entity* target)
 	switch (target->GetEntityType())
 	{
 		case EntityType::Bullet:
-			this->KillEntity();
-			target->KillEntity();
+		{
+			Bullet* bullet = (Bullet*)target;
+			if ((Entity*)this != bullet->GetOwner())
+			{
+				this->KillEntity();
+				target->KillEntity();
+			}
+		}	
 			break;
 
 		case EntityType::Runner:
@@ -91,6 +123,9 @@ void Player::OnCollisionEntity(Entity* target)
 
 void Player::KillEntity()
 {
+	if (Respawning)
+		return;
+	color = FG_RED;
 	Respawning = true;
 	timeForRespawning = timeRespawn;
 	lifes--;
@@ -101,42 +136,58 @@ void Player::Shoot()
 	if (countOfBullets > 0)
 	{
 		countOfBullets--;
-		Create(new Bullet(x, y, color, eDirection, this, 10.0));
+		Create(new Bullet(x, y, color, eDirection, this, 15.0));
 	}
 }
 
 void Player::MoveUp()
 {
 	eDirection = Direction::Up;
-	EntityType entTy = pWorld->GetEntity(x, y - 1)->GetEntityType();
-	if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
-		return;
+	Entity* entity = pWorld->GetEntity(x, y - 1);
+	if (entity != nullptr)
+	{
+		EntityType entTy = entity->GetEntityType();
+		if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
+			return;
+	}	
 	y--;
 }
 
 void Player::MoveDown()
 {
 	eDirection = Direction::Down;
-	EntityType entTy = pWorld->GetEntity(x, y + 1)->GetEntityType();
-	if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
-		return;
+	Entity* entity = pWorld->GetEntity(x, y + 1);
+	if (entity != nullptr)
+	{
+		EntityType entTy = entity->GetEntityType();
+		if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
+			return;
+	}
 	y++;
 }
 
 void Player::MoveLeft()
 {
 	eDirection = Direction::Left;
-	EntityType entTy = pWorld->GetEntity(x - 1, y)->GetEntityType();
-	if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
-		return;
+	Entity* entity = pWorld->GetEntity(x - 1, y);
+	if (entity != nullptr)
+	{
+		EntityType entTy = entity->GetEntityType();
+		if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
+			return;
+	}
 	x--;
 }
 
 void Player::MoveRight()
 {
 	eDirection = Direction::Right;
-	EntityType entTy = pWorld->GetEntity(x + 1, y)->GetEntityType();
-	if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
-		return;
+	Entity* entity = pWorld->GetEntity(x + 1, y);
+	if (entity != nullptr)
+	{
+		EntityType entTy = entity->GetEntityType();
+		if (entTy == EntityType::Cannon || entTy == EntityType::Wall)
+			return;
+	}
 	x++;
 }

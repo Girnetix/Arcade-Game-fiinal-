@@ -5,7 +5,6 @@ SmartPointer<Entity* []> World::EntityBuffer::entitiesBuf = nullptr;
 
 World::World()
 {
-	worldWidth = worldHeight = 0;
 	entitiesCount = 0;
 }
 
@@ -16,12 +15,13 @@ World::~World()
 
 void World::CreateWorld(const std::string& worldname)
 {
-
+	file.Create(worldname);
+	file.Close();
+	file.Open(worldname);
 }
 
 void World::SaveWorld()
 {
-
 	file.Close();
 }
 
@@ -31,7 +31,6 @@ void World::LoadWorld(const std::string& worldname)
 	if (!file.isOpen())
 		return;
 	worldName = worldname;
-	file >> worldWidth >> worldHeight;
 	file >> entitiesCount;
 }
 

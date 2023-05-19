@@ -4,7 +4,6 @@ Runner::Runner(int x, int y, short color, Direction eDirection, double speed) : 
 {
 	eEntityType = EntityType::Runner;
 	symbol = 'S';
-	Create(this);
 }
 
 void Runner::OnCollisionEntity(Entity* target)

@@ -42,11 +42,11 @@
     <ClCompile Include="Randomer.cpp">
       <Filter>Исходные файлы\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="ExtraEntities.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Исходные файлы\Entities</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

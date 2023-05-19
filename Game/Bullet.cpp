@@ -5,16 +5,22 @@ Bullet::Bullet(int x, int y, short color, Direction eDirection, Entity* owner, d
     eEntityType = EntityType::Bullet;
     this->owner = owner;
     symbol = L'O';
-
+    int testX = x, testY = y;
     switch (eDirection)
     {
-        case Direction::Up:    this->y--;		break;
-        case Direction::Down:  this->y++;		break;
-        case Direction::Left:  this->x--;		break;
-        case Direction::Right: this->x++;		break;
+        case Direction::Up:    testY--;		break;
+        case Direction::Down:  testY++;		break;
+        case Direction::Left:  testX--;		break;
+        case Direction::Right: testX++;		break;
     }
-
-    Create(this);
+    Entity* entity = pWorld->GetEntity(testX, testY);
+    if (entity != nullptr)
+    {
+        this->OnCollisionEntity(entity);
+        return;
+    }
+    this->x = testX;
+    this->y = testY;
 }
 
 Entity* Bullet::GetOwner()
@@ -24,15 +30,22 @@ Entity* Bullet::GetOwner()
 
 void Bullet::Update()   
 {
-   //меняем координаты в зависимости от направления
+    int testX = x, testY = y;
     switch (eDirection)
     {
-        case Direction::Up:		y--; break;
-        case Direction::Down:	y++; break;
-        case Direction::Left:	x--; break;
-        case Direction::Right:	x++; break;
+        case Direction::Up:    testY--;		break;
+        case Direction::Down:  testY++;		break;
+        case Direction::Left:  testX--;		break;
+        case Direction::Right: testX++;		break;
     }
-
+    Entity* entity = pWorld->GetEntity(testX, testY);
+    if (entity != nullptr)
+    {
+        this->OnCollisionEntity(entity);
+        return;
+    }
+    x = testX;
+    y = testY;
 }
 
 void Bullet::OnCollisionEntity(Entity* target)
@@ -47,8 +60,11 @@ void Bullet::OnCollisionEntity(Entity* target)
         case EntityType::Wall:           this->KillEntity();     break;
 
         default:
-            this->KillEntity();
-            target->KillEntity();
+            if (this->GetOwner() != target)
+            {
+                this->KillEntity();
+                target->KillEntity();
+            }
             break;
     }
 }

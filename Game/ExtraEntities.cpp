@@ -5,7 +5,6 @@ Ammo::Ammo(int x, int y, short color):Entity(x, y, color, Direction::Up, 0.0, L"
 	symbol = L'A';
 	Movable = false;
 	eEntityType = EntityType::Ammo;
-	Create(this);
 }
 
 void Ammo::Update()
@@ -21,7 +20,6 @@ Life::Life(int x, int y, short color) :Entity(x, y, color, Direction::Up, 0.0, L
 	symbol = L'+';
 	Movable = false;
 	eEntityType = EntityType::Life;
-	Create(this);
 }
 
 void Life::Update()
@@ -37,7 +35,6 @@ CheckPoint::CheckPoint(int x, int y, short color) :Entity(x, y, color, Direction
 	symbol = L'C';
 	Movable = false;
 	eEntityType = EntityType::CheckPoint;
-	Create(this);
 }
 
 void CheckPoint::Update()
@@ -53,7 +50,6 @@ FinishMarker::FinishMarker(int x, int y, short color) :Entity(x, y, color, Direc
 	symbol = 0x2588;
 	Movable = false;
 	eEntityType = EntityType::FinishMarker;
-	Create(this);
 }
 
 void FinishMarker::Update()
@@ -69,7 +65,6 @@ Wall::Wall(int x, int y, short color) :Entity(x, y, color, Direction::Up, 0.0, L
 	symbol = L'#';
 	Movable = false;
 	eEntityType = EntityType::Wall;
-	Create(this);
 }
 
 void Wall::Update()
