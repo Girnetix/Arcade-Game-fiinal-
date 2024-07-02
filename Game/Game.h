@@ -15,6 +15,7 @@ enum CoreGameState
 {
 	Menu,
 	Game,
+	Setting,
 	Editor
 };
 
@@ -34,6 +35,11 @@ enum EditorState
 	EditingSpeed
 };
 
+enum NetworkGameState
+{
+
+};
+
 enum PeekRandomerPositions
 {
 	First,
@@ -47,6 +53,7 @@ public:
 	bool OnUserUpdate(double deltaTime) override;
 	void OnUserDestroy() override;
 	void UpdateGame(double deltaTime);
+	void UpdateNetworkGame(double deltaTime);
 	void UpdateEditor(double deltaTime);
 private:
 	void LoadWorld();
@@ -59,8 +66,10 @@ private:
 	CoreGameState coreGameState;
 	MainGameState mainGameState;
 	EditorState editorState;
+	NetworkGameState networkGameState;
 	PeekRandomerPositions randomerPositions = First;
 	CMenu MainMenu;
+	CMenu createNetworkGame;
 	Entity::Direction entityDirection;
 	CTimerValue exitButtonPressedTp1, exitButtonPressedTp2;
 	int x, y, minX, minY, maxX, maxY;

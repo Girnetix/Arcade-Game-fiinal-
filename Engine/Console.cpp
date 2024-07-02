@@ -45,9 +45,9 @@ void CConsole::UpdateConsole()
 	int iLine = 1;
 
 	if (consoleHistory.size())
-		for (; consoleHistoryIt != consoleHistory.end() && iLine != pWindow->GetScrHeight() - 1; ++consoleHistoryIt)
+		for (std::list<std::wstring>::iterator it = consoleHistoryIt; it != consoleHistory.end() && iLine != pWindow->GetScrHeight() - 1; ++it)
 		{
-			pWindow->PrintMsgLeftSideAlpha(iLine, FG_YELLOW, consoleHistoryIt->c_str());
+			pWindow->PrintMsgLeftSideAlpha(iLine, FG_YELLOW, it->c_str());
 			iLine++;
 		}
 		
@@ -65,6 +65,8 @@ void CConsole::UpdateConsole()
 
 void CConsole::CPrintF(const wchar_t* str, ...)
 {
+	if (bShowConsole)
+		return;
 	va_list args;
 	va_start(args, str);
 
@@ -81,7 +83,11 @@ void CConsole::CPrintF(const wchar_t* str, ...)
 		consoleHistoryIt = consoleHistory.begin();
 
 	if (consoleHistory.size() > (size_t)(pWindow->GetScrHeight() - 2))
-		std::advance(consoleHistoryIt, consoleHistory.size() - (size_t)(pWindow->GetScrHeight() - 2));
+	{
+		consoleHistoryIt = consoleHistory.begin();
+		size_t offset = consoleHistory.size() - (size_t)(pWindow->GetScrHeight() - 2);
+		std::advance(consoleHistoryIt, offset);
+	}
 
 	va_end(args);
 }

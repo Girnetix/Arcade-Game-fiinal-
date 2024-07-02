@@ -21,23 +21,26 @@
   <ItemGroup>
     <ClInclude Include="ActionButton.h" />
     <ClInclude Include="Console.h" />
+    <ClInclude Include="CRC.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="Memory.h" />
-    <ClInclude Include="PRNG.h" />
+    <ClInclude Include="Random.h" />
     <ClInclude Include="Rendering.h" />
     <ClInclude Include="Stream.h" />
+    <ClInclude Include="ThreadPool.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ActionButton.cpp" />
     <ClCompile Include="Console.cpp" />
+    <ClCompile Include="CRC.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="Input.cpp" />
-    <ClCompile Include="PRNG.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Rendering.cpp" />
     <ClCompile Include="Stream.cpp" />
     <ClCompile Include="Timer.cpp" />
@@ -113,6 +116,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -127,6 +131,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +146,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -155,6 +161,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <DebugInformationFormat>OldStyle</DebugInformationFormat>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

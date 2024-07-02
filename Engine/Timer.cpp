@@ -47,29 +47,34 @@ void Timer::UpdateTimer()
 		TimerHandle* currentTimer = (*iterator).Get();
 		switch (currentTimer->TimerState)
 		{
-		case TimerHandleState::Running:										//если таймер запущен
-			currentTimer->currentTime += deltaTime;							//увеличиваем время работы таймера на время между вызовами метода
-			if (currentTimer->currentTime >= currentTimer->delay)			//если время работы превышает время задержки, то...
-			{
-				currentTimer->function();									//вызываем функцию
-				currentTimer->currentTime -= currentTimer->delay;			//уменьшаем время работы на нашу задержку
-				if (currentTimer->countOfRepeat > 0)
-					currentTimer->countOfRepeat--;							//уменьшаем кол-во срабатываний
-				if (currentTimer->countOfRepeat == 0)
-					currentTimer->TimerState = TimerHandleState::Finished;	//устанавливаем флаг, что таймер завершил свою работу
-			}
-			++iterator;
-			break;
-		case TimerHandleState::Sleeping:									//если таймер в режиме сна
-			currentTimer->sleepingTime -= deltaTime;						//уменьшаем время сна
-			if (currentTimer->sleepingTime <= 0.0)							//если время сна закончилось, то переводим таймер в режим работы
-				currentTimer->TimerState = TimerHandleState::Running;
-			++iterator;
-			break;
-		case TimerHandleState::Paused:	 ++iterator; break;					//если таймер приостановлен, то переходим к следующему таймеру
-		case TimerHandleState::Finished: iterator = timerList.erase(iterator); break;	//если таймер завершил свою работу, то удаляем его
+			case TimerHandleState::Running:										//если таймер запущен
+				currentTimer->currentTime += deltaTime;							//увеличиваем время работы таймера на время между вызовами метода
+				if (currentTimer->currentTime >= currentTimer->delay)			//если время работы превышает время задержки, то...
+				{
+					currentTimer->function();									//вызываем функцию
+					currentTimer->currentTime -= currentTimer->delay;			//уменьшаем время работы на нашу задержку
+					if (currentTimer->countOfRepeat > 0)
+						currentTimer->countOfRepeat--;							//уменьшаем кол-во срабатываний
+					if (currentTimer->countOfRepeat == 0)
+						currentTimer->TimerState = TimerHandleState::Finished;	//устанавливаем флаг, что таймер завершил свою работу
+				}
+				++iterator;
+				break;
+			case TimerHandleState::Sleeping:									//если таймер в режиме сна
+				currentTimer->sleepingTime -= deltaTime;						//уменьшаем время сна
+				if (currentTimer->sleepingTime <= 0.0)							//если время сна закончилось, то переводим таймер в режим работы
+					currentTimer->TimerState = TimerHandleState::Running;
+				++iterator;
+				break;
+			case TimerHandleState::Paused:	 ++iterator; break;					//если таймер приостановлен, то переходим к следующему таймеру
+			case TimerHandleState::Finished: iterator = timerList.erase(iterator); break;	//если таймер завершил свою работу, то удаляем его
 		}
 	}
+}
+
+void Timer::AdjustDeltaTime(double time)
+{
+	deltaTime = time;
 }
 
 bool Timer::PauseTimerHandle(unsigned int id)
@@ -178,10 +183,8 @@ uint64_t Timer::GetFrequency()
 Timer::TimerHandle* Timer::GetTimerHandle(unsigned int id)
 {
 	for (auto& currentTimer : timerList)
-	{
 		if (currentTimer->id == id)
 			return currentTimer.Get();
-	}
 	return nullptr;
 }
 
@@ -283,12 +286,11 @@ int64_t CTimerValue::Count()
 	return value;
 }
 
-Timing::Timing(std::function<void()> function, const std::wstring& str)
+Timing::Timing(const std::wstring& str)
 {
 	description = str;
 	pConsole->CPrintF(L"Измерение времени выполнения ф-ции %s", description.c_str());
 	tp1 = pTimer->GetHighPrecisionTime();
-	function();
 }
 
 Timing::~Timing()

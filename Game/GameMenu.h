@@ -15,6 +15,7 @@ public:
 		friend class CMenu;
 		MenuObject();
 		MenuObject(MenuObject* parent, const std::wstring& title, const std::wstring& subtitle = L"");
+		~MenuObject() { Close(); }
 		MenuObject& operator[](const std::wstring& name);
 		MenuObject& operator[](int index);
 		MenuObject& Enable(bool state);
@@ -28,6 +29,7 @@ public:
 		void DrawSelf();
 		void Build();
 		void Execute();
+		void Close();
 		int GetX();
 		int GetY();
 	private:

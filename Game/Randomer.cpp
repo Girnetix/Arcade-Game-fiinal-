@@ -85,7 +85,7 @@ void Randomer::Update()
 				x = testX;
 				y = testY;
 			}
-			if (entity->GetEntityType() == EntityType::Bullet && moveIsLegal)
+			else if (entity->GetEntityType() == EntityType::Bullet && moveIsLegal)
 			{
 				x = testX;
 				y = testY;

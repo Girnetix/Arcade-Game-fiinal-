@@ -42,13 +42,10 @@
     <ClInclude Include="Engine.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering.h">
-      <Filter>Файлы заголовков\Render</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Файлы заголовков\Base</Filter>
     </ClInclude>
-    <ClInclude Include="PRNG.h">
+    <ClInclude Include="Random.h">
       <Filter>Файлы заголовков\Base</Filter>
     </ClInclude>
     <ClInclude Include="Memory.h">
@@ -72,11 +69,17 @@
     <ClInclude Include="Console.h">
       <Filter>Файлы заголовков\Base</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering.h">
+      <Filter>Файлы заголовков\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="CRC.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadPool.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Rendering.cpp">
-      <Filter>Исходные файлы\Render</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
@@ -98,10 +101,16 @@
     <ClCompile Include="ActionButton.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
-    <ClCompile Include="PRNG.cpp">
+    <ClCompile Include="Random.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
     <ClCompile Include="Console.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering.cpp">
+      <Filter>Исходные файлы\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="CRC.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
   </ItemGroup>

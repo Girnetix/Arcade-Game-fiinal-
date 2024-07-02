@@ -4,7 +4,7 @@ Player::Player(int x, int y, short color, Direction eDirection, double speed, co
 {
 	xRespawn = x;
 	yRespawn = y;
-	symbol = (char)eDirection;
+	symbol = (wchar_t)eDirection;
 	directionRespawn = eDirection;
 	eEntityType = EntityType::Player;
 	this->speed = 0.0;
@@ -69,6 +69,7 @@ void Player::Update()
 
 void Player::OnCollisionEntity(Entity* target)
 {
+	pConsole->CPrintF(L"Detected enitity collision: (current entity type: %s to target entity type: %s)", this->GetName().c_str(), target->GetName().c_str());
 	switch (target->GetEntityType())
 	{
 		case EntityType::Bullet:

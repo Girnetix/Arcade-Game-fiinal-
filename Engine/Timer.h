@@ -50,6 +50,8 @@ public:
 	void ResetTimer();
 	void UpdateTimer();															//обновление таймера
 
+	void AdjustDeltaTime(double time);
+
 	bool PauseTimerHandle(unsigned int id);										//приостановить таймер
 	bool UnpauseTimerHandle(unsigned int id);									//возобновить таймер
 	bool SleepTimerHandle(unsigned int id, double seconds);						//усыпить таймер
@@ -94,7 +96,7 @@ private:
 class Timing
 {
 public:
-	Timing(std::function<void()> function, const std::wstring& str);
+	Timing(const std::wstring& str);
 	~Timing();
 private:
 	std::wstring description;

@@ -8,8 +8,12 @@ Window::Window()
 	screenHeight = 50;
 	cursX = cursY = 0;
 	hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+	COORD coord = GetLargestConsoleWindowSize(hConsole);
+	CONSOLE_SCREEN_BUFFER_INFO buf_info{};
+	GetConsoleScreenBufferInfo(hConsole, &buf_info);
 	AppName = L"Unnamed app";
 	ConstructWindow(screenWidth, screenHeight, 8, 12, L"Точечные шрифты", AppName);
+	GetConsoleScreenBufferInfo(hConsole, &buf_info);
 }
 
 Window::~Window()
@@ -53,7 +57,7 @@ void Window::ConstructWindow(int width, int height, int fontw, int fonth, const 
 	screenHeight = height;
 	this->AppName = AppName;
 
-	rectWindow = { 0, 0, 1, 1 };
+	rectWindow = { 0, 0, (short)(screenWidth - 1), (short)(screenHeight - 1) };
 	COORD coord = { (short)screenWidth, (short)screenHeight };
 	SetConsoleScreenBufferSize(hConsole, coord);
 	SetConsoleActiveScreenBuffer(hConsole);
@@ -275,7 +279,7 @@ void Window::AddToAppName(const std::wstring& str)
 
 void Window::UpdateWindow()
 {
-	WriteConsoleOutput(hConsole, screen.Get(), {(short)screenWidth, (short)screenHeight}, {0, 0}, &rectWindow);
+	WriteConsoleOutput(hConsole, screen.Get(), { (short)screenWidth, (short)screenHeight }, { 0, 0 }, &rectWindow);
 }
 
 void Window::CloseWindow()

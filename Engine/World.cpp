@@ -1,7 +1,9 @@
 #include "World.h"
+#include "Console.h"
+#include <codecvt>
 
-SmartPointer<World> pWorld = nullptr;
-SmartPointer<Entity* []> World::EntityBuffer::entitiesBuf = nullptr;
+SmartPointer<World> pWorld;
+SmartPointer<Entity* []> World::EntityBuffer::entitiesBuf;
 
 World::World()
 {
@@ -31,15 +33,36 @@ void World::SaveWorld()
 
 void World::LoadWorld(const std::string& worldname)
 {
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	std::wstring wstr = converter.from_bytes(worldname);
+
+	pConsole->CPrintF(L"Opening file \"%s\"...", wstr.c_str());
+	CTimerValue tpBefore = pTimer->GetHighPrecisionTime();
+
 	file.Open(worldname);
 	if (!file.isOpen())
+	{
+		pConsole->CPrintF(L"Cannot open file \"%s\"...", wstr.c_str());
 		return;
+	}
+
+	CTimerValue tpAfter = pTimer->GetHighPrecisionTime();
+	pConsole->CPrintF(L"Opened file \"%s\" in %3.3f seconds", wstr.c_str(), (tpAfter - tpBefore).GetSeconds());
 	worldName = worldname;
 	file >> entitiesCount;
 }
 
 void World::UpdateWorld(double deltaTime)
 {
+	/*for (auto currentEntity = entitiesList.begin(); currentEntity != entitiesList.end(); currentEntity++)
+	{
+		currentEntity->Get()->UpdateEntity(deltaTime);
+		if (!currentEntity->Get()->IsAlive())
+		{
+			currentEntity = entitiesList.erase(currentEntity);
+			continue;
+		}
+	}*/
 	for (auto& currentEntity : entitiesList)
 		currentEntity->UpdateEntity(deltaTime);
 	entitiesList.remove_if([](SmartPointer<Entity> &entity) { return !entity->IsAlive(); });
@@ -68,7 +91,10 @@ void World::EntityBuffer::SetEntityToBuffer(Entity* entity)
 	int y = entity->GetY();
 	Entity* target = GetEntityFromBuffer(x, y);
 	if (target != nullptr)
+	{
+		pConsole->CPrintF(L"Detected enitity collision: (current entity type: %s to target entity type: %s)", entity->GetName().c_str(), target->GetName().c_str());
 		entity->OnCollisionEntity(target);
+	}
 	else
 		entitiesBuf[y * pWindow->GetScrWidth() + x] = entity;
 }

@@ -2,14 +2,23 @@
 
 bool CGame::OnUserCreate()
 {
-	MainMenu.mo[L"Играть"][L"Редактор"][L"Выход"];
-	MainMenu.mo[L"Играть"].SetAction([&]() {coreGameState = Game; mainGameState = MainGameState::Starting; }).SetSubtitle(L"Сыграйте в одиночную игру");
+	MainMenu.mo[L"Одиночная игра"][L"Сетевая игра"][L"Редактор"][L"Настройки"][L"Выход"];
+	MainMenu.mo[L"Одиночная игра"].SetAction([&]() {coreGameState = Game; mainGameState = MainGameState::Starting; }).SetSubtitle(L"Сыграйте в одиночную игру");
+	MainMenu.mo[L"Сетевая игра"][L"Создать игру"][L"Подключиться к игре"][L"Назад"];
+	MainMenu.mo[L"Сетевая игра"].SetSubtitle(L"Сыграйте в игру вместе с друзьями");
+	MainMenu.mo[L"Сетевая игра"][L"Назад"].SetAction([&]() { MainMenu.mm.OnBack(); });
 	MainMenu.mo[L"Редактор"].SetAction([&]() {coreGameState = Editor;  LoadWorld(); editorState = Editing; }).SetSubtitle(L"Запустите редактор карт");
+	MainMenu.mo[L"Настройки"][L"Отображать FPS"][L"Назад"];
+	MainMenu.mo[L"Настройки"][L"Отображать FPS"].SetAction([&]() { bShowFPS = !bShowFPS; });
+	MainMenu.mo[L"Настройки"][L"Назад"].SetAction([&]() { MainMenu.mm.OnBack(); });
+	MainMenu.mo[L"Настройки"].SetSubtitle(L"Измените параметры игры");
 	MainMenu.mo[L"Выход"].SetAction([&]() {bIsRunning = false; }).SetSubtitle(L"Выход из игры");
 	MainMenu.mo.Build();
 	MainMenu.mm.Open(&MainMenu.mo);
 
 	coreGameState = Menu;
+	//coreGameState = Game;
+	mainGameState = Starting;
 	return true;
 }
 
@@ -30,7 +39,8 @@ bool CGame::OnUserUpdate(double deltaTime)
 
 void CGame::OnUserDestroy()
 {
-
+	MainMenu.mm.Close();
+	MainMenu.mo.Close();
 }
 
 void CGame::UpdateGame(double deltaTime)
@@ -46,9 +56,10 @@ void CGame::UpdateGame(double deltaTime)
 			if (Keyboard::GetKey(ESCAPE).bPressed) exitButtonPressedTp1 = pTimer->GetHighPrecisionTime();
 			if (Keyboard::GetKey(ESCAPE).bHeld) {
 				exitButtonPressedTp2 = pTimer->GetHighPrecisionTime();
-				pWindow->PrintMsgRightSide(pWindow->GetScrHeight() - 1, FG_WHITE, L"Удерживайте клавишу Escape для выхода в меню: %d", (int)(3.0 - (exitButtonPressedTp2 - exitButtonPressedTp1).GetSeconds()) + 1);
+				pWindow->PrintMsgRightSide(pWindow->GetScrHeight() - 1, FG_WHITE, L"Удерживайте клавишу Escape для выхода в меню: %d", (int)(3.0 - (exitButtonPressedTp2 - exitButtonPressedTp1).GetSeconds() + 1.0));
 				if ((exitButtonPressedTp2 - exitButtonPressedTp1).GetSeconds() >= 3.0)
 				{
+					CloseWorld();
 					mainGameState = Finishing;
 					break;
 				}		
@@ -98,7 +109,7 @@ void CGame::UpdateGame(double deltaTime)
 					pWindow->PrintMsgInCenter(23, FG_YELLOW, L"Время: %02d:%02d:%02d", hour, min % 60, sec % 60);
 				pWindow->PrintMsgInCenter(25, FG_GREEN, L"Убийств: %d       Смертей: %d", totalKills, totalDeaths);
 				pWindow->PrintMsgInCenter(26, FG_MAGENTA, L"Ваш счёт: %d", totalScore);
-				pWindow->PrintMsgInCenter(40, FG_WHITE, L"Возврат в главное меню через: %d", (int)returningTimeInMenu + 1);
+				pWindow->PrintMsgInCenter(40, FG_WHITE, L"Возврат в главное меню через: %d", (int)(returningTimeInMenu + 1));
 			}
 			else
 				mainGameState = Finishing;
@@ -119,7 +130,7 @@ void CGame::UpdateGame(double deltaTime)
 				pWindow->PrintMsgInCenter(25, FG_GREEN, L"Убийств: %d       Смертей: %d", totalKills, totalDeaths);
 				pWindow->PrintMsgInCenter(26, FG_MAGENTA, L"Ваш счёт: %d", totalScore);
 				pWindow->PrintMsgInCenter(30, FG_WHITE, L"Не расстраивайтесь! В следующий раз у Вас все получится!");
-				pWindow->PrintMsgInCenter(40, FG_WHITE, L"Возврат в главное меню через: %d", (int)returningTimeInMenu + 1);
+				pWindow->PrintMsgInCenter(40, FG_WHITE, L"Возврат в главное меню через: %d", (int)(returningTimeInMenu + 1));
 			}
 			else
 				mainGameState = Finishing;
@@ -132,6 +143,11 @@ void CGame::UpdateGame(double deltaTime)
 				gameWon = gameOver = false;
 			break;
 	}
+}
+
+void CGame::UpdateNetworkGame(double deltaTime)
+{
+
 }
 
 void CGame::UpdateEditor(double deltaTime)
@@ -369,6 +385,7 @@ void CGame::UpdateEditor(double deltaTime)
 void CGame::LoadWorld()
 {
 	pWorld->LoadWorld("test.lvl");
+	pConsole->CPrintF(L"Total count of entities in the world: %d", pWorld->entitiesCount);
 	Entity entity;
 	for (int i = 0; i < pWorld->entitiesCount; i++)
 	{
@@ -377,7 +394,7 @@ void CGame::LoadWorld()
 		{
 			case EntityType::Player:
 			{
-				pWorld->CreateEntity(new Player(entity.GetX(), entity.GetY(), entity.GetEntityColor(), entity.GetDirection(), entity.GetSpeed(), entity.GetName()));
+				pWorld->CreateEntity(new Player(entity.GetX(), entity.GetY(), entity.GetEntityColor(), entity.GetDirection(), entity.GetSpeed()));
 				countOfPlayers++;
 			}				
 				break;
@@ -411,10 +428,22 @@ void CGame::LoadWorld()
 				break;
 		}
 	}
+
+
+	/*CFileStream updatefile("update_test.lvl");
+	updatefile.Create();
+	updatefile << pWorld->entitiesCount;
+
+	for (auto& it : pWorld->entitiesList)
+		updatefile << *it.Get();
+
+	updatefile.Close();*/
 }
 
 void CGame::UpdateWorld(double deltaTime)
 {
+	CTimerValue tpBefore = pTimer->GetHighPrecisionTime();
+
 	for (auto& entity : pWorld->entitiesList)
 	{
 		entity->UpdateEntity(deltaTime);
@@ -435,6 +464,10 @@ void CGame::UpdateWorld(double deltaTime)
 			pWorld->entityBuf.DeleteEntityFromBuffer(entity.Get());
 		return !entity->IsAlive() && ((entity->GetEntityType() != EntityType::Player) && (entity->GetEntityType() != EntityType::FinishMarker));
 		});
+
+	CTimerValue tpAfter = pTimer->GetHighPrecisionTime();
+	pConsole->CPrintF(L"World updated in %3.3f ms", (tpAfter - tpBefore).GetMilliseconds());
+	pConsole->CPrintF(L"%d entities updated", pWorld->entitiesList.size());
 }
 
 void CGame::CloseWorld()

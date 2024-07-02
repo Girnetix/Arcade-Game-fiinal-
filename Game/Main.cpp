@@ -3,6 +3,6 @@
 int main()
 {
 	CGame game;
-	game.Start(120, 50, 8, 12, L"Точечные шрифты", L"Arrow-man");
+	game.Start(179, 45, 8, 12, L"Consolas", L"Arrow-man", 500);
 	return 0;
 }

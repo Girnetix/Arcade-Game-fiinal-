@@ -104,6 +104,12 @@ void CMenu::MenuObject::Execute()
 	function();
 }
 
+void CMenu::MenuObject::Close()
+{
+	items.clear(); 
+	itemPointer.clear();
+}
+
 int CMenu::MenuObject::GetX()
 {
 	return coord.x;
@@ -162,13 +168,19 @@ void CMenu::MenuManager::OnBack()
 {
 	if (panels.size() > 1)
 		panels.pop_back();
+	yCurs = 0;
 }
 
 void CMenu::MenuManager::OnSelect()
 {
 	MenuObject* mo = &(*panels.back())[yCurs];
 	if (mo->HasChildren() && mo->Enabled())
+	{
+		if (mo->bindedFunc)
+			mo->Execute();
 		panels.push_back(mo);
+		yCurs = 0;
+	}
 	else if (mo->bindedFunc && mo->Enabled())
 		mo->Execute();
 }

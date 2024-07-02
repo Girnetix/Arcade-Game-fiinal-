@@ -4,8 +4,9 @@
 
 #include "Timer.h"
 #include "Rendering.h"
-#include "PRNG.h"
+#include "Random.h"
 #include "Stream.h"
+#include "Console.h"
 
 enum class EntityType :uint16_t;
 class World;
@@ -46,6 +47,8 @@ public:
 
 	friend CStream& operator<<(CStream& stream, Entity& entity);
 	friend CStream& operator>>(CStream& stream, Entity& entity);
+
+	
 
 public:
 	virtual void Update() {};

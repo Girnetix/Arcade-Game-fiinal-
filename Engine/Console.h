@@ -9,9 +9,9 @@
 #include "Rendering.h"
 
 class CTimerValue;
-class CTimer;
+class Timer;
 
-constexpr int MAX_CONSOLE_LENGTH_HISTORY = 500;
+constexpr int MAX_CONSOLE_LENGTH_HISTORY = 2500;
 
 class CConsole
 {

@@ -3,7 +3,7 @@
 void CStream::Read(void* data, uint32_t size)
 {
 	if (extractionOffset + size <= bufferSize)
-	{
+	{						
 		memcpy(data, &buffer[extractionOffset], size);
 		extractionOffset += size;
 	}

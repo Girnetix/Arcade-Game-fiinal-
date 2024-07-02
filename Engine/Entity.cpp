@@ -147,8 +147,8 @@ CStream& operator>>(CStream& stream, Entity& entity)
 	stream.Read(&entity.eDirection, sizeof(Entity::Direction));
 
 	stream >> entity.x >> entity.y
-		>> entity.speed >> entity.delay >> entity.time
-		>> entity.symbol >> entity.color >> entity.Alive
-		>> entity.Movable >> entity.id >> entity.name;
+		   >> entity.speed >> entity.delay >> entity.time
+		   >> entity.symbol >> entity.color >> entity.Alive
+		   >> entity.Movable >> entity.id >> entity.name;
 	return stream;
 }
