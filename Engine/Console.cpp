@@ -85,7 +85,6 @@ CConsole::CConsole()
         std::string str;
         for (int i = 1; i < args.size(); i++)
             str += args[i] + " ";
-        CPrintF(std::wstring(str.begin(), str.end()).c_str());
         return str;
         });
 }
@@ -170,10 +169,10 @@ void CConsole::UpdateConsole(double deltaTime)
             cmdHistoryIndex = static_cast<int>(cmdHistory.size()) - 1;
             cmdHistoryIt = cmdHistory.begin();
             CPrintF(L"=> %s", command.c_str());
-            std::string commandStr(command.begin(), command.end());
-            std::string cmdResult = cmdBuffer.executeCommand(commandStr);
-            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-            CPrintF(converter.from_bytes(cmdResult).c_str());
+            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converterToString;
+            std::string cmdResult = cmdBuffer.executeCommand(converterToString.to_bytes(command));
+            std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converterToWideString;
+            CPrintF(converterToWideString.from_bytes(cmdResult).c_str());
             input.clear();
         }
     }
