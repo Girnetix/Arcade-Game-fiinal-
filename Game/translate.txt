@@ -1,0 +1,141 @@
+>
+Single player
+<
+Одиночная игра
+>
+Network game
+<
+Сетевая игра
+>
+Editor
+<
+Редактор
+>
+Options
+<
+Настройки
+>
+Quit
+<
+Выход
+>
+Play single play
+<
+Сыграйте в одиночную игру
+>
+Play with your friends
+<
+Сыграйте в игру вместе с друзьями
+>
+Start world editor
+<
+Запустите редактор карт
+>
+Change game options
+<
+Измените параметры игры
+>
+Quit the game
+<
+Выход из игры
+>
+W - up, S - down, Enter - select
+<
+W - вверх, S - вниз, Enter - выбрать
+>
+Hold ESC for quit to main menu: %d
+<
+Удерживайте клавишу ESC для выхода в меню: %d
+>
+Game time: %d:%02d
+<
+Время: %d:%02d
+>
+Game time: %02d:%02d:%02d
+<
+Время: %02d:%02d:%02d
+>
+YOU ARE WON!
+<
+ВЫ ПОБЕДИЛИ!
+>
+Statistics
+<
+Статистика
+>
+Kills: %d       Deaths: %d
+<
+Убийств: %d       Смертей: %d
+>
+Your score: %d
+<
+Ваш счёт: %d
+>
+Returning in main menu in: %d
+<
+Возврат в главное меню через: %d
+>
+YOU ARE LOST!
+<
+ВЫ ПРОИГРАЛИ!
+>
+Don't be sad! Next time you'll be more lucky!
+<
+Не расстраивайтесь! В следующий раз у Вас все получится!
+>
+Back
+<
+Назад
+>
+Show FPS
+<
+Отображать FPS
+>
+Start server
+<
+Запуск сервера
+>
+Connect to server
+<
+Подключение к игре
+>
+L"(x:%d; y:%d) Total entities: %d
+<
+L"(x:%d; y:%d) Создано объектов: %d
+>
+Loading world
+<
+Запуск уровня
+>
+Language
+<
+Язык
+>
+English
+<
+Английский
+>
+Russian
+<
+Русский
+>
+Respawning in: %d
+<
+Возрождение через: %d
+>
+Lives: %d
+<
+Жизни: %d
+>
+Ammo: %d/%d
+<
+Патроны: %d/%d
+>
+Current position: (x: %d; y: %d)
+<
+Текущая позиция: (x: %d; y: %d)
+>
+Respawning position: (x: %d; y: %d)
+<
+Место возрождения: (x: %d; y: %d)
+$

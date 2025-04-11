@@ -1,7 +1,9 @@
 #include "Input.h"
+#include "Rendering.h"
 
 bool Keyboard::m_keyNewState[]{ 0 };
 bool Keyboard::m_keyOldState[]{ 0 };
+bool Keyboard::m_trackedKeys[]{ 0 };
 Keyboard::KeyState Keyboard::m_keys[]{ 0 };
 
 const std::vector<std::tuple<Key, std::wstring, std::wstring, std::wstring, std::wstring>> KeyboardMap =
@@ -61,10 +63,15 @@ const std::map<Key, std::wstring> KeyNamesMap = {
 	{Key::OEM_5, L"\\"},	{Key::OEM_6, L"]"},		{Key::OEM_7, L"\'"}
 };
 
+
 void Keyboard::UpdateKeyboard()
 {
+	// Обновляем состояние только отслеживаемых клавиш
 	for (int i = 0; i < 256; i++)
 	{
+		if (!m_trackedKeys[i]) // Пропускаем неиспользуемые клавиши
+			continue;
+
 		m_keyNewState[i] = GetAsyncKeyState(i);
 
 		m_keys[i].bPressed = false;
@@ -90,5 +97,13 @@ void Keyboard::UpdateKeyboard()
 
 Keyboard::KeyState Keyboard::GetKey(Key key)
 {
+	if (!m_trackedKeys[key])
+	{
+		// Если клавиша ещё не отслеживается, добавляем её в отслеживаемые
+		m_trackedKeys[key] = true;
+		m_keyOldState[key] = GetAsyncKeyState(key);
+		m_keys[key].bPressed = m_keyNewState[key] = m_keyOldState[key];
+	}
+
 	return m_keys[key];
 }

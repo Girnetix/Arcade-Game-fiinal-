@@ -72,6 +72,8 @@ public:
 	int GetScrWidth();
 	int GetScrHeight();
 
+	bool IsWindowActive();
+
 	wchar_t GetChar(int x, int y);
 protected:
 	SmartPointer<CHAR_INFO[]> screen;

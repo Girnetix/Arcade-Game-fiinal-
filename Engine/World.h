@@ -16,6 +16,7 @@ public:
 	void CreateEntity(Entity* entity);
 	void DestroyEntity(Entity* entity);
 	Entity* GetEntity(int x, int y);
+	Entity* FindEntity(EntityType eEntityType);
 public:
 	class EntityBuffer
 	{

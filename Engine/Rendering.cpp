@@ -323,6 +323,11 @@ int Window::GetScrHeight()
 	return screenHeight;
 }
 
+bool Window::IsWindowActive()
+{
+	return !(IsIconic(GetConsoleWindow()) != 0);
+}
+
 wchar_t Window::GetChar(int x, int y)
 {
 	if (x < screenWidth && x >= 0 && y < screenHeight && y >= 0)

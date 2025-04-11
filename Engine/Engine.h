@@ -13,6 +13,9 @@
 #include "Entity.h"
 #include "World.h"
 #include "CRC.h"
+#include "Translation.h"
+#include "Profiling.h"
+#include "TextInput.h"
 #include <algorithm>
 #include <thread>
 
@@ -32,11 +35,12 @@ protected:
 	void CalculateFPS();
 protected:
 	bool bIsRunning = false;
-	bool bShowFPS = false;
+	bool bShowFPS = true;
 	bool bShowPing = false;
 	double maxFrameTime = 0.0;
 	int maxFPS = 0;
 	std::wstring appName;
+	CTimerValue profiling[10];
 };
 
 #endif

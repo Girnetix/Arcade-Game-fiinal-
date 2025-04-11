@@ -9,6 +9,7 @@
 #include "Player.h"
 #include "Runner.h"
 #include "Randomer.h"
+#include "Chaser.h"
 #include "ExtraEntities.h"
 
 enum CoreGameState
@@ -52,6 +53,7 @@ public:
 	bool OnUserCreate() override;
 	bool OnUserUpdate(double deltaTime) override;
 	void OnUserDestroy() override;
+	void ConstructMenu();
 	void UpdateGame(double deltaTime);
 	void UpdateNetworkGame(double deltaTime);
 	void UpdateEditor(double deltaTime);
@@ -77,8 +79,8 @@ private:
 	int totalKills = 0, totalDeaths = 0, totalScore = 0;
 	bool gameOver = false, gameWon = false;
 	Entity* pickedEntity = nullptr;
-	double gameTime = 0.0, returningTimeInMenu = 10.0;
-	int sec = 0, min = 0, hour = 0;
+	double gameTime = 0.0, returnTime = 10.0, returningTimeInMenu = returnTime;
+	int msec = 0, sec = 0, min = 0, hour = 0;
 private:
 	int xCurs = 0, yCurs = 0;
 };

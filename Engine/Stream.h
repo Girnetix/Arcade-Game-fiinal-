@@ -43,8 +43,8 @@ public:
 
 	void SetPos(uint32_t position) { extractionOffset = position; }
 
-	int GetPos() { return extractionOffset; }
-	int GetSize() { return bufferSize; }
+	int GetPos()	 { return extractionOffset; }
+	int GetSize()	 { return bufferSize; }
 	int GetMaxSize() { return maxBufferSize; }
 
 	char* Data() { return buffer.data(); }

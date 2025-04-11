@@ -41,6 +41,7 @@ private:
 		bool bHeld = false;
 	} m_keys[256];
 	static bool m_keyNewState[256], m_keyOldState[256];
+	static bool m_trackedKeys[256];
 public:
 	static void UpdateKeyboard();
 	static KeyState GetKey(Key key);

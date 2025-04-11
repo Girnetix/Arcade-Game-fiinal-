@@ -7,6 +7,7 @@
 #include "Random.h"
 #include "Stream.h"
 #include "Console.h"
+#include "ProgressBar.h"
 
 enum class EntityType :uint16_t;
 class World;

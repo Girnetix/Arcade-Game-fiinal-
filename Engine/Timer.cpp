@@ -7,7 +7,9 @@ unsigned int Timer::TimerHandle::counter = 0;
 
 Timer::Timer()
 {
+	pConsole->CPrintF(L"Startup high resolution timer");
 	QueryPerformanceFrequency((LARGE_INTEGER*)&frequency);
+	pConsole->CPrintF(L"QueryPerfomanceFrequency() returned: %d", frequency);
 	uint64_t CPUBefore = 0, CPUAfter = 0;
 	uint64_t timeAfter = 0;
 	QueryPerformanceCounter((LARGE_INTEGER*)&timeNow);
@@ -21,6 +23,7 @@ Timer::Timer()
 	CPUAfter = __rdtsc();
 	CPUSpeed = floor((double)((CPUAfter - CPUBefore) * frequency / (timeNow - timeBefore)) / 1000000.0) * 1000000.0;
 	timeBefore = timeNow;
+	pConsole->CPrintF(L"CPU speed %3.3f GHz", CPUSpeed / 1000000000.0);
 }
 
 Timer::~Timer()

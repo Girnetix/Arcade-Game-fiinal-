@@ -48,6 +48,9 @@
     <ClCompile Include="Player.cpp">
       <Filter>Исходные файлы\Entities</Filter>
     </ClCompile>
+    <ClCompile Include="Chaser.cpp">
+      <Filter>Исходные файлы\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="EntitiesTypes.h">
@@ -75,6 +78,9 @@
       <Filter>Файлы заголовков\Entities</Filter>
     </ClInclude>
     <ClInclude Include="ExtraEntities.h">
+      <Filter>Файлы заголовков\Entities</Filter>
+    </ClInclude>
+    <ClInclude Include="Chaser.h">
       <Filter>Файлы заголовков\Entities</Filter>
     </ClInclude>
   </ItemGroup>

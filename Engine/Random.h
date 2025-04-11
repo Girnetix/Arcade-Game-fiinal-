@@ -3,6 +3,7 @@
 #define	PRNG_H
 
 #include "Timer.h"
+#include "Console.h"
 
 template <class _Ty, size_t _Wx, size_t _Nx, size_t _Mx, size_t _Rx, _Ty _Px, size_t _Ux, _Ty _Dx, size_t _Sx, _Ty _Bx,
 	size_t _Tx, _Ty _Cx, size_t _Lx, _Ty _Fx>
@@ -15,6 +16,7 @@ public:
 		maxRange = ~_Ty{ 0 };
 		seed = pTimer->GetHighPrecisionTime().Count();
 		RandomInit();
+		pConsole->CPrintF(L"Random number generator started with seed %d", seed);
 	}
 	NumberGenerator(_Ty minRange, _Ty maxRange) :NumberGenerator()
 	{
@@ -108,7 +110,7 @@ private:
 		_Ty prev = m_mt[0] = seed & WORD_MASK;
 		for (m_index = 1; m_index < N; m_index++)
 			prev = m_mt[m_index] = (m_index + F * (prev ^ (prev >> (W - 2)))) & WORD_MASK;
-		m_index = N;
+		m_index = 0;
 	}
 };
 

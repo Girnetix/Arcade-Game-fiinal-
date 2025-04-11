@@ -85,6 +85,15 @@ Entity* World::GetEntity(int x, int y)
 	return entityBuf.GetEntityFromBuffer(x, y);
 }
 
+Entity* World::FindEntity(EntityType eEntityType)
+{
+	auto pEntity = std::find_if(entitiesList.begin(), entitiesList.end(), [&](SmartPointer<Entity>& entity) {return entity->GetEntityType() == eEntityType; });
+	if (pEntity != entitiesList.end())
+		return pEntity->Get();
+
+	return nullptr;
+}
+
 void World::EntityBuffer::SetEntityToBuffer(Entity* entity)
 {
 	int x = entity->GetX();

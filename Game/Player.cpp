@@ -55,7 +55,7 @@ void Player::Update()
 	else
 	{
 		timeForRespawning -= pTimer->GetDeltaTimeSec();
-		pWindow->PrintMsgRightSide(1, FG_CYAN, L"Возрождение через: %d", (int)timeForRespawning + 1);
+		pWindow->PrintMsgRightSide(1, FG_CYAN, Translate(L"Respawning in: %d"), (int)(timeForRespawning + 1));
 		if (timeForRespawning <= 0.0)
 		{
 			color = FG_CYAN;
@@ -137,10 +137,10 @@ void Player::KillEntity()
 
 void Player::PrintInfo()
 {
-	pWindow->PrintMsg(90, 3, FG_RED, L"Жизни: %d", lifes);
-	pWindow->PrintMsg(90, 4, FG_YELLOW, L"Патроны: %d/%d", countOfBullets, maxCountOfBullets);
-	pWindow->PrintMsg(0, 43, FG_CYAN, L"Текущая позиция: (x: %d; y: %d)", x, y);
-	pWindow->PrintMsg(0, 44, FG_CYAN, L"Место возрождения: (x: %d; y: %d)", xRespawn, yRespawn);
+	pWindow->PrintMsg(90, 3, FG_RED, Translate(L"Lives: %d"), lifes);
+	pWindow->PrintMsg(90, 4, FG_YELLOW, Translate(L"Ammo: %d/%d"), countOfBullets, maxCountOfBullets);
+	pWindow->PrintMsg(0, 43, FG_CYAN, Translate(L"Current position: (x: %d; y: %d)"), x, y);
+	pWindow->PrintMsg(0, 44, FG_CYAN, Translate(L"Respawning position: (x: %d; y: %d)"), xRespawn, yRespawn);
 }
 
 void Player::Shoot()

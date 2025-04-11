@@ -78,6 +78,21 @@
     <ClInclude Include="ThreadPool.h">
       <Filter>Файлы заголовков\Base</Filter>
     </ClInclude>
+    <ClInclude Include="ProgressBar.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Translation.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Profiling.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="TextInput.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandProcessor.h">
+      <Filter>Файлы заголовков\Base</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Timer.cpp">
@@ -111,6 +126,15 @@
       <Filter>Исходные файлы\Render</Filter>
     </ClCompile>
     <ClCompile Include="CRC.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Translation.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="TextInput.cpp">
+      <Filter>Исходные файлы\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandProcessor.cpp">
       <Filter>Исходные файлы\Base</Filter>
     </ClCompile>
   </ItemGroup>

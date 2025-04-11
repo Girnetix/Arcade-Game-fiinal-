@@ -25,8 +25,8 @@ public:
 		{
 			ptr = Other.ptr;
 			refCount = Other.refCount;
-			(*refCount)++;
-			Other.reset();
+			Other.ptr = nullptr;
+			Other.refCount = nullptr;
 		}
 	}
 	SmartPointer<Type>& operator=(SmartPointer<Type>& Right)
@@ -48,9 +48,8 @@ public:
 			reset();
 			ptr = Right.ptr;
 			refCount = Right.refCount;
-			if (ptr != nullptr)
-				(*refCount)++;
-			Right.reset();
+			Right.ptr = nullptr;
+			Right.refCount = nullptr;
 		}
 		return *this;
 	}
